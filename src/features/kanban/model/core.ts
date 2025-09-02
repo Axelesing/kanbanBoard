@@ -27,9 +27,10 @@ const taskAdd = createEvent()
 const taskUpdate = createEvent<{ id: string; title: string }>()
 
 // --- store
-const $kanbanData = createStore<ColumnType[]>([])
-  .on([kanbanDataSet, loadFromStorageFx.doneData], (_, data) => data)
-  .on(kanbanDataSet, (_, data) => data)
+const $kanbanData = createStore<ColumnType[]>([]).on(
+  [kanbanDataSet, loadFromStorageFx.doneData],
+  (_, data) => data,
+)
 
 sample({
   clock: taskAdd,
