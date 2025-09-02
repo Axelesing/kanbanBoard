@@ -1,21 +1,21 @@
 import { createEvent, createStore, combine } from 'effector'
 
 import type { Task } from '@/constants/kanban'
-import { $kanbanData } from '@/features/kanban/model/core'
+import { $$kanban } from '@/features/kanban'
 
-export const modalViewSet = createEvent<boolean>()
+const modalViewSet = createEvent<boolean>()
 
-export const modalTaskSet = createEvent<string | null>()
+const modalTaskSet = createEvent<string | null>()
 
-export const $isViewModal = createStore(false).on(modalViewSet, (_, v) => v)
+const $isViewModal = createStore(false).on(modalViewSet, (_, v) => v)
 
-export const $selectedTaskId = createStore<string | null>(null).on(
+const $selectedTaskId = createStore<string | null>(null).on(
   modalTaskSet,
   (_, id) => id,
 )
 
-export const $selectedTask = combine(
-  $kanbanData,
+const $selectedTask = combine(
+  $$kanban.$kanbanData,
   $selectedTaskId,
   (columns, taskId): Task | null => {
     if (!taskId) return null
@@ -27,4 +27,9 @@ export const $selectedTask = combine(
   },
 )
 
-$selectedTask.watch((test) => console.log(JSON.stringify(test, null, 2)))
+export const $$modal = {
+  modalViewSet,
+  modalTaskSet,
+  $isViewModal,
+  $selectedTask,
+}

@@ -10,7 +10,7 @@ import sc from 'styled-components'
 
 import type { Task } from '@/constants/kanban'
 import { borderRadius, mediumPadding } from '@/constants/styles'
-import { modalTaskSet, modalViewSet } from '@/widgets/Modal/model/core'
+import { $$modal } from '@/widgets/Modal'
 
 interface SortableCardProps {
   id: string
@@ -18,7 +18,10 @@ interface SortableCardProps {
 }
 
 export function SortableCard({ id, task }: SortableCardProps) {
-  const [openModal, setTask] = useUnit([modalViewSet, modalTaskSet])
+  const [openModal, setTask] = useUnit([
+    $$modal.modalViewSet,
+    $$modal.modalTaskSet,
+  ])
   const { id: taskId, chip, title } = task
 
   const { attributes, listeners, setNodeRef, transform, transition } =

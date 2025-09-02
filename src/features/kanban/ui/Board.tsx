@@ -7,25 +7,25 @@ import {
   rectIntersection,
   DragOverlay,
 } from '@dnd-kit/core'
-import { useUnit } from 'effector-react'
+import { useGate, useUnit } from 'effector-react'
 
 import type { Task } from '@/constants/kanban'
-import { Modal } from '@/widgets/Modal/ui/Modal'
 
-import { findTaskIndexes } from '../lib/findTaskIndexes'
-import { moveTask } from '../lib/moveTask'
-import { useBoardSensors } from '../lib/useBoardSensors'
-import { $kanbanData, kanbanDataSet, taskAdd } from '../model/core'
+import { findTaskIndexes, useBoardSensors, moveTask } from '../lib'
+import { $$kanban } from '../model/core'
 
 import { Column } from './Column'
 import { ColumnCard } from './ColumnCard'
 
 export function Board() {
+  useGate($$kanban.kanbanGate)
+
   const [columns, setKanbanData, addTask] = useUnit([
-    $kanbanData,
-    kanbanDataSet,
-    taskAdd,
+    $$kanban.$kanbanData,
+    $$kanban.kanbanDataSet,
+    $$kanban.taskAdd,
   ])
+
   const sensors = useBoardSensors()
   const [activeTask, setActiveTask] = useState<Task | null>(null)
 
@@ -79,7 +79,6 @@ export function Board() {
           {activeTask ? <ColumnCard task={activeTask} /> : null}
         </DragOverlay>
       </DndContext>
-      <Modal />
     </>
   )
 }

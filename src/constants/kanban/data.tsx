@@ -1,8 +1,8 @@
-export type Chip = { label: string; status: string }
+type Chip = { label: string; status: string }
 export type Task = { id: string; title: string; chip: Chip }
 export type Column = { id: string; title: string; tasks: Task[] }
 
-export const INITIAL_COLUMNS: Column[] = [
+export const INITIAL_COLUMNS = JSON.stringify([
   {
     id: 'todo',
     title: 'To Do',
@@ -61,4 +61,4 @@ export const INITIAL_COLUMNS: Column[] = [
       },
     ],
   },
-]
+])
