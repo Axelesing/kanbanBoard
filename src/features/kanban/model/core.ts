@@ -3,6 +3,7 @@ import { createGate } from 'effector-react'
 
 import { INITIAL_COLUMNS } from '@/constants/kanban'
 import type { Column as ColumnType } from '@/constants/kanban'
+import { Item } from '@/shared/ui/select/UserSelect'
 
 import { createNewTask } from '../lib'
 
@@ -24,7 +25,13 @@ const saveToStorageFx = createEffect((todos: ColumnType[]) => {
 // --- events
 const kanbanDataSet = createEvent<ColumnType[]>()
 const taskAdd = createEvent()
-const taskUpdate = createEvent<{ id: string; title: string }>()
+const taskRemove = createEvent<{ id: string }>()
+const taskUpdate = createEvent<{
+  id: string
+  title: string
+  description: string | undefined
+  user?: Item | null
+}>()
 
 // --- store
 const $kanbanData = createStore<ColumnType[]>([]).on(
@@ -48,10 +55,23 @@ sample({
 sample({
   clock: taskUpdate,
   source: $kanbanData,
-  fn: (data, { id, title }) =>
+  fn: (data, { id, title, description, user }) =>
     data.map((col) => ({
       ...col,
-      tasks: col.tasks.map((t) => (t.id === id ? { ...t, title } : t)),
+      tasks: col.tasks.map((t) =>
+        t.id === id ? { ...t, title, description, user } : t,
+      ),
+    })),
+  target: [$kanbanData, saveToStorageFx],
+})
+
+sample({
+  clock: taskRemove,
+  source: $kanbanData,
+  fn: (data, { id }) =>
+    data.map((col) => ({
+      ...col,
+      tasks: col.tasks.filter((t) => t.id !== id),
     })),
   target: [$kanbanData, saveToStorageFx],
 })
@@ -78,6 +98,7 @@ export const $$kanban = {
   kanbanDataSet,
   taskAdd,
   taskUpdate,
+  taskRemove,
   $kanbanData,
   kanbanGate,
 }

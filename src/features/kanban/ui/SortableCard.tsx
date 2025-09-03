@@ -1,3 +1,4 @@
+import { IconDraggable } from '@consta/icons/IconDraggable'
 import { Avatar } from '@consta/uikit/Avatar'
 import { Card } from '@consta/uikit/Card'
 import { Chips } from '@consta/uikit/Chips'
@@ -23,7 +24,7 @@ export function SortableCard({ id, task }: SortableCardProps) {
     $$modal.modalTaskSet,
   ])
   const { id: taskId, chip, title } = task
-
+  const user = task?.user
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id })
 
@@ -53,11 +54,13 @@ export function SortableCard({ id, task }: SortableCardProps) {
           <StyledText size="l" lineHeight="m">
             {title}
           </StyledText>
-          <Avatar name="Test Name" />
+          {!!user && <Avatar name={user.label} url={user.avatarUrl} />}
         </div>
-        <span {...listeners} style={{ cursor: 'grab', marginLeft: 8 }}>
-          ⇅
-        </span>
+        <IconDraggable
+          size="l"
+          {...listeners}
+          style={{ cursor: 'grab', marginLeft: 8 }}
+        />
       </div>
       <Chips size="xs" items={[chip]} />
     </StyledCard>

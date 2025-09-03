@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react'
 
 import { Button } from '@consta/uikit/Button'
+import { Layout } from '@consta/uikit/Layout'
 import { cnMixFlex } from '@consta/uikit/MixFlex'
 import { Modal as ModalComponent } from '@consta/uikit/Modal'
-import { Text } from '@consta/uikit/Text'
 import { TextField } from '@consta/uikit/TextField'
+import { reflect } from '@effector/reflect'
 import { useUnit } from 'effector-react'
 import sc from 'styled-components'
 
+import { USERS } from '@/constants/kanban/data'
 import { extraBigPadding } from '@/constants/styles'
 import { $$kanban } from '@/features/kanban'
+import { Item, UserSelect } from '@/shared/ui/select/UserSelect'
 
 import { $$modal } from '../model/core'
 
@@ -19,23 +22,54 @@ export function Modal() {
     $$modal.modalViewSet,
     $$modal.$selectedTask,
   ])
-  const [updateTask] = useUnit([$$kanban.taskUpdate])
 
-  const { title, id } = modalData ?? {}
-  const [value, setValue] = useState<string | null>(title || null)
+  const [updateTask, removeTask] = useUnit([
+    $$kanban.taskUpdate,
+    $$kanban.taskRemove,
+  ])
+
+  const { title, id, description, user: userData } = modalData ?? {}
+
+  const [titleText, setTitleText] = useState<string | null | undefined>(title)
+  const [user, setUser] = useState<Item | null | undefined>(userData)
+  const [descriptionText, setDescriptionText] = useState<
+    string | null | undefined
+  >(description)
 
   const closeModalWithoutSave = () => setIsModalOpen(false)
 
   const closeModalWithSave = () => {
-    if (id && value?.trim()) {
-      updateTask({ id, title: value.trim() })
+    if (id && titleText?.trim()) {
+      updateTask({
+        id,
+        title: titleText.trim(),
+        description: descriptionText?.trim(),
+        user,
+      })
     }
     setIsModalOpen(false)
   }
 
+  const closeModalWithRemove = () => {
+    removeTask({
+      id: modalData!.id,
+    })
+    setIsModalOpen(false)
+  }
+
   useEffect(() => {
-    setValue(title || null)
+    setTitleText(title ?? null)
   }, [title, isModalOpen])
+
+  useEffect(() => {
+    setDescriptionText(description ?? null)
+  }, [isModalOpen, description])
+
+  useEffect(() => {
+    setUser(userData)
+  }, [isModalOpen, userData])
+
+  const isTitle = !titleText?.length || !titleText?.trim()
 
   return (
     <StyledModal
@@ -44,35 +78,56 @@ export function Modal() {
       position="top"
       onClickOutside={closeModalWithoutSave}
       onEsc={closeModalWithoutSave}
+      className={cnMixFlex({
+        direction: 'column',
+        gap: 'l',
+        align: 'stretch',
+      })}
     >
-      <div>
-        <TextField
-          value={value}
-          size="l"
-          leftSide="Название:"
-          placeholder="Введите название"
-          view="clear"
-          status={!value?.length ? 'alert' : 'success'}
-          onChange={setValue}
-        />
-        <Text size="s" view="secondary" lineHeight="m">
-          Это содержимое модального окна. Здесь может быть что угодно: текст,
-          изображение, форма или таблица. Всё, что хочется вынести из контекста
-          и показать поверх основной страницы.Это содержимое модального окна.
-          Здесь может быть что угодно: текст, изображение, форма или таблица.
-          Всё, что хочется вынести из контекста и показать поверх основной
-          страницы.Это содержимое модального окна. Здесь может быть что угодно:
-          текст, изображение, форма или таблица. Всё, что хочется вынести из
-          контекста и показать поверх основной страницы.Это содержимое
-          модального окна. Здесь может быть что угодно: текст, изображение,
-          форма или таблица. Всё, что хочется вынести из контекста и показать
-          поверх основной страницы.Это содержимое модального окна. Здесь может
-          быть что угодно: текст, изображение, форма или таблица. Всё, что
-          хочется вынести из контекста и показать поверх основной страницы.
-        </Text>
-      </div>
-      <div
-        className={cnMixFlex({ direction: 'row', justify: 'space-between' })}
+      <Layout
+        className={cnMixFlex({
+          gap: 'l',
+          align: 'stretch',
+        })}
+      >
+        <Layout
+          className={cnMixFlex({
+            direction: 'column',
+            gap: 'l',
+          })}
+          flex={3}
+        >
+          <TextField
+            type="text"
+            value={titleText}
+            size="l"
+            label="Название"
+            placeholder="Введите название"
+            required
+            status={isTitle ? 'alert' : undefined}
+            caption={isTitle ? 'Обязательное поле' : ''}
+            onChange={setTitleText}
+          />
+          <TextField
+            type="textarea"
+            value={descriptionText}
+            size="m"
+            minRows={13}
+            cols={75}
+            label="Описание"
+            placeholder="Введите описание задачи"
+            onChange={setDescriptionText}
+          />
+        </Layout>
+        <TaskSettings flex={1}>
+          <_UserSelect value={user} setValue={setUser} />
+        </TaskSettings>
+      </Layout>
+      <Layout
+        className={cnMixFlex({
+          direction: 'row',
+          justify: 'space-between',
+        })}
       >
         <Button
           size="l"
@@ -83,20 +138,33 @@ export function Modal() {
         <Button
           size="l"
           view="primary"
+          label="Remove"
+          onClick={closeModalWithRemove}
+        />
+        <Button
+          size="l"
+          view="primary"
           label="Save"
           onClick={closeModalWithSave}
-          disabled={!value?.length || !value?.trim()}
+          disabled={isTitle}
         />
-      </div>
+      </Layout>
     </StyledModal>
   )
 }
 
 const StyledModal = sc(ModalComponent)`
-  display: flex;
-  flex-direction: column;
   padding: ${extraBigPadding};
-  max-width: 50vw;
-  justify-content: space-between;
-  gap:  ${extraBigPadding};
 `
+
+const TaskSettings = sc(Layout)`
+  border-left: 1px solid;
+  padding: 16px;
+`
+
+const _UserSelect = reflect({
+  view: UserSelect,
+  bind: {
+    items: USERS,
+  },
+})

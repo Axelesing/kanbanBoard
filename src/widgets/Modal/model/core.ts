@@ -1,6 +1,5 @@
 import { createEvent, createStore, combine } from 'effector'
 
-import type { Task } from '@/constants/kanban'
 import { $$kanban } from '@/features/kanban'
 
 const modalViewSet = createEvent<boolean>()
@@ -17,7 +16,7 @@ const $selectedTaskId = createStore<string | null>(null).on(
 const $selectedTask = combine(
   $$kanban.$kanbanData,
   $selectedTaskId,
-  (columns, taskId): Task | null => {
+  (columns, taskId) => {
     if (!taskId) return null
     for (const col of columns) {
       const found = col.tasks.find((t) => t.id === taskId)
