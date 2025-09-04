@@ -1,6 +1,9 @@
+import { BadgePropStatus } from '@consta/uikit/Badge'
+
 import { Item } from '@/shared/ui/select/UserSelect'
 
-type Chip = { label: string; status: string }
+type Chip = { label: string; status: BadgePropStatus }
+
 export type Task = {
   id: string
   title: string
@@ -8,6 +11,7 @@ export type Task = {
   chip: Chip
   user?: Item | null
 }
+
 export type Column = { id: string; title: string; tasks: Task[] }
 
 export const INITIAL_COLUMNS = JSON.stringify([

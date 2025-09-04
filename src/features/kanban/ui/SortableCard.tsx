@@ -1,7 +1,7 @@
 import { IconDraggable } from '@consta/icons/IconDraggable'
 import { Avatar } from '@consta/uikit/Avatar'
+import { Badge } from '@consta/uikit/Badge'
 import { Card } from '@consta/uikit/Card'
-import { Chips } from '@consta/uikit/Chips'
 import { cnMixFlex } from '@consta/uikit/MixFlex'
 import { Text } from '@consta/uikit/Text'
 import { useSortable } from '@dnd-kit/sortable'
@@ -62,7 +62,7 @@ export function SortableCard({ id, task }: SortableCardProps) {
           style={{ cursor: 'grab', marginLeft: 8 }}
         />
       </div>
-      <Chips size="xs" items={[chip]} />
+      <Badge size="s" status={chip.status} label={chip.label} />
     </StyledCard>
   )
 }

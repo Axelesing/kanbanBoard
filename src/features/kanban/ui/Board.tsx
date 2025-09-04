@@ -1,6 +1,8 @@
 import { useState } from 'react'
 
+import { Button } from '@consta/uikit/Button'
 import { Layout } from '@consta/uikit/Layout'
+import { cnMixFlex } from '@consta/uikit/MixFlex'
 import {
   DndContext,
   DragEndEvent,
@@ -67,13 +69,11 @@ export function Board() {
         onDragEnd={handleDragEnd}
         onDragCancel={() => setActiveTask(null)}
       >
-        <Layout style={{ display: 'flex', gap: 16 }}>
+        <Layout className={cnMixFlex({ justify: 'center', gap: 'l' })}>
           {columns.map((col) => (
             <Column key={col.id} {...col} />
           ))}
-          <button style={{ maxHeight: '80px', padding: 24 }} onClick={addTask}>
-            Add task
-          </button>
+          <Button onClick={addTask} label={'Add task'} />
         </Layout>
         <DragOverlay>
           {activeTask ? <ColumnCard task={activeTask} /> : null}

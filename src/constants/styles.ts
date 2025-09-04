@@ -1,8 +1,7 @@
 import { convertPxToRem } from '@/shared/lib'
 
-const borderRadius = convertPxToRem(8)
-const mediumPadding = convertPxToRem(8)
-const smallPadding = convertPxToRem(4)
-const extraBigPadding = convertPxToRem(24)
-
-export { borderRadius, mediumPadding, smallPadding, extraBigPadding }
+export const borderRadius = convertPxToRem(8)
+export const mediumPadding = convertPxToRem(8)
+export const smallPadding = convertPxToRem(4)
+export const extraBigPadding = convertPxToRem(24)
+export const bigPadding = convertPxToRem(16)

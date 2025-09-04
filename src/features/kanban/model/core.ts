@@ -39,6 +39,13 @@ const $kanbanData = createStore<ColumnType[]>([]).on(
   (_, data) => data,
 )
 
+// --- samples
+
+sample({
+  clock: kanbanGate.open,
+  target: loadFromStorageFx,
+})
+
 sample({
   clock: taskAdd,
   source: $kanbanData,
@@ -81,10 +88,7 @@ sample({
   target: saveToStorageFx,
 })
 
-sample({
-  clock: kanbanGate.open,
-  target: loadFromStorageFx,
-})
+// --- watchers
 
 saveToStorageFx.fail.watch(({ error }) => {
   console.error('Failed to save tasks:', error)
@@ -93,6 +97,8 @@ saveToStorageFx.fail.watch(({ error }) => {
 loadFromStorageFx.fail.watch(({ error }) => {
   console.error('Failed to load tasks:', error)
 })
+
+// --- export
 
 export const $$kanban = {
   kanbanDataSet,

@@ -2,4 +2,4 @@
 export { $$modal } from './model/core'
 
 // UI
-export { Modal } from './ui/Modal'
+export { TaskModal } from './ui/KanbanTaskModal'
