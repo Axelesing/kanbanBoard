@@ -19,6 +19,7 @@ export function useTaskModal() {
   ])
 
   const [title, setTitle] = useState<string | null | undefined>(null)
+  const [date, setDate] = useState<Date | null>(null)
   const [description, setDescription] = useState<string | null | undefined>(
     null,
   )
@@ -27,6 +28,7 @@ export function useTaskModal() {
   useEffect(() => {
     if (!isOpen || !selectedTask) return
     setTitle(selectedTask.title ?? null)
+    setDate(selectedTask.date ?? null)
     setDescription(selectedTask.description ?? null)
     setUser(selectedTask.user ?? null)
   }, [isOpen, selectedTask, selectedTask?.id])
@@ -68,6 +70,7 @@ export function useTaskModal() {
       setDescription,
       user,
       setUser,
+      date,
       isTitleInvalid,
     },
   }

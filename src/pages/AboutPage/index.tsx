@@ -28,7 +28,7 @@ export function AboutPage() {
       <p>
         Проект находится в активной разработке. Если у вас есть идеи или отзывы,
         напишите нам на
-        <a href="mailto:pas1996@mail.ru">support@kanban.app</a>.
+        <a href="mailto:pas1996@mail.ru"> pas1996@mail.ru</a>.
       </p>
     </div>
   )

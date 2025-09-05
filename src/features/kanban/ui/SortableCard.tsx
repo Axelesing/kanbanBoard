@@ -49,12 +49,18 @@ export function SortableCard({ id, task }: SortableCardProps) {
       >
         <div
           className={cnMixFlex({ direction: 'row', justify: 'space-between' })}
-          style={{ flex: 1 }}
+          style={{ flex: 1, minWidth: 0 }}
         >
           <StyledText size="l" lineHeight="m">
             {title}
           </StyledText>
-          {!!user && <Avatar name={user.label} url={user.avatarUrl} />}
+          {!!user && (
+            <Avatar
+              style={{ minWidth: 32 }}
+              name={user.label}
+              url={user.avatarUrl}
+            />
+          )}
         </div>
         <IconDraggable
           size="l"
@@ -74,8 +80,15 @@ const StyledCard = sc(Card)`
   user-select: none;
   border-radius: ${borderRadius};
   padding: ${mediumPadding};
+
+  @media (max-width: 768px) {
+    padding: 12px;
+  }
 `
 
 const StyledText = sc(Text)`
-  align-self: center;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 `

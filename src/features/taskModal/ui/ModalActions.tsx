@@ -1,6 +1,7 @@
 import { Button } from '@consta/uikit/Button'
 import { Layout } from '@consta/uikit/Layout'
 import { cnMixFlex } from '@consta/uikit/MixFlex'
+import sc from 'styled-components'
 
 type ModalActionsProps = {
   onClose: () => void
@@ -16,18 +17,30 @@ export function ModalActions({
   disableSave,
 }: ModalActionsProps) {
   return (
-    <Layout
-      className={cnMixFlex({ direction: 'row', justify: 'space-between' })}
+    <LayoutWrapper
+      className={cnMixFlex({
+        direction: 'row',
+        justify: 'space-between',
+        wrap: 'wrap',
+        gap: 's',
+      })}
     >
-      <Button size="l" view="primary" label="Close" onClick={onClose} />
-      <Button size="l" view="primary" label="Remove" onClick={onRemove} />
+      <Button size="l" view="primary" label="Закрыть" onClick={onClose} />
+      <Button size="l" view="primary" label="Удалить" onClick={onRemove} />
       <Button
         size="l"
         view="primary"
-        label="Save"
+        label="Сохранить"
         onClick={onSave}
         disabled={disableSave}
       />
-    </Layout>
+    </LayoutWrapper>
   )
 }
+
+const LayoutWrapper = sc(Layout)`
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`

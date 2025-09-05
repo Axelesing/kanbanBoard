@@ -1,3 +1,5 @@
+import { badgePropStatus } from '@consta/uikit/Badge'
+
 import type { Column as ColumnType } from '@/constants/kanban'
 
 export function createNewTask(columns: ColumnType[]) {
@@ -10,9 +12,10 @@ export function createNewTask(columns: ColumnType[]) {
   return {
     id: String(maxId + 1),
     title: `Задача ${String(maxId + 1)}`,
+    date: new Date(),
     chip: {
       label: 'To do',
-      status: 'system',
+      status: badgePropStatus[4],
     },
   }
 }

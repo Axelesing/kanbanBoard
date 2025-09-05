@@ -3,7 +3,7 @@ import { cnMixFlex } from '@consta/uikit/MixFlex'
 import { Modal as ConstaModal } from '@consta/uikit/Modal'
 import sc from 'styled-components'
 
-import { extraBigPadding } from '@/constants/styles'
+import { extraBigPadding, mediumPadding } from '@/constants/styles'
 import { useTaskModal } from '@/features/taskModal/hooks/useTaskModal'
 import { ModalActions } from '@/features/taskModal/ui/ModalActions'
 import { TaskForm } from '@/features/taskModal/ui/TaskForm'
@@ -23,6 +23,7 @@ export function TaskModal() {
       user,
       setUser,
       isTitleInvalid,
+      date,
     },
   } = useTaskModal()
 
@@ -35,7 +36,7 @@ export function TaskModal() {
       onEsc={closeWithoutSave}
       className={cnMixFlex({ direction: 'column', gap: 'l', align: 'stretch' })}
     >
-      <Layout className={cnMixFlex({ gap: 'l', align: 'stretch' })}>
+      <LayoutWrapper className={cnMixFlex({ gap: 'l', align: 'stretch' })}>
         <TaskForm
           title={title}
           description={description}
@@ -43,8 +44,8 @@ export function TaskModal() {
           onTitleChange={setTitle}
           onDescriptionChange={setDescription}
         />
-        <TaskSettingsPanel user={user} onUserChange={setUser} />
-      </Layout>
+        <TaskSettingsPanel user={user} onUserChange={setUser} date={date!} />
+      </LayoutWrapper>
 
       <ModalActions
         onClose={closeWithoutSave}
@@ -58,4 +59,19 @@ export function TaskModal() {
 
 const ModalShell = sc(ConstaModal)`
   padding: ${extraBigPadding};
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 0;
+    height: 100%;
+  }
+`
+
+const LayoutWrapper = sc(Layout)`
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 16px;
+    padding: ${mediumPadding};
+  }
 `

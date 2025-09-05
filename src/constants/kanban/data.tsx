@@ -10,19 +10,45 @@ export type Task = {
   description?: string
   chip: Chip
   user?: Item | null
+  date: Date
 }
 
 export type Column = { id: string; title: string; tasks: Task[] }
 
-export const INITIAL_COLUMNS = JSON.stringify([
-  {
+export const STATUSES = {
+  toDo: {
     id: 'todo',
     title: 'To Do',
+    label: 'To Do',
+  },
+  inProgress: {
+    id: 'in-progress',
+    title: 'In Progress',
+    label: 'In Progress',
+  },
+  done: {
+    id: 'done',
+    title: 'Done',
+    label: 'Done',
+  },
+}
+
+export const STATUSES_SELECT = [
+  { ...STATUSES.toDo },
+  { ...STATUSES.inProgress },
+  { ...STATUSES.done },
+]
+
+export const INITIAL_COLUMNS = JSON.stringify([
+  {
+    id: STATUSES.toDo.id,
+    title: STATUSES.toDo.title,
     tasks: [
       {
         id: '1',
         title: 'Задача 1',
         description: 'Описание задачи',
+        date: new Date(),
         chip: {
           label: 'To do',
           status: 'system',
@@ -32,6 +58,7 @@ export const INITIAL_COLUMNS = JSON.stringify([
         id: '2',
         title: 'Задача 2',
         description: 'Описание задачи',
+        date: new Date(),
         chip: {
           label: 'To do',
           status: 'system',
@@ -41,6 +68,7 @@ export const INITIAL_COLUMNS = JSON.stringify([
         id: '3',
         title: 'Задача 3',
         description: 'Описание задачи',
+        date: new Date(),
         chip: {
           label: 'To do',
           status: 'system',
@@ -49,13 +77,14 @@ export const INITIAL_COLUMNS = JSON.stringify([
     ],
   },
   {
-    id: 'in-progress',
-    title: 'In Progress',
+    id: STATUSES.inProgress.id,
+    title: STATUSES.inProgress.id,
     tasks: [
       {
         id: '4',
         title: 'Задача 4',
         description: 'Описание задачи',
+        date: new Date(),
         chip: {
           label: 'In Progress',
           status: 'normal',
@@ -64,12 +93,13 @@ export const INITIAL_COLUMNS = JSON.stringify([
     ],
   },
   {
-    id: 'done',
-    title: 'Done',
+    id: STATUSES.done.id,
+    title: STATUSES.done.id,
     tasks: [
       {
         id: '5',
         title: 'Задача 5',
+        date: new Date(),
         chip: {
           label: 'Done',
           status: 'success',

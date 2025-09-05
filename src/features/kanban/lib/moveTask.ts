@@ -1,3 +1,5 @@
+import { BadgePropStatus } from '@consta/uikit/Badge'
+
 import { Column } from '@/constants/kanban'
 
 interface MoveTaskProps {
@@ -8,7 +10,10 @@ interface MoveTaskProps {
   targetTaskIndex: number
 }
 
-const columnStatusMap: Record<string, { label: string; status: string }> = {
+const columnStatusMap: Record<
+  string,
+  { label: string; status: BadgePropStatus }
+> = {
   'todo': { label: 'To do', status: 'system' },
   'in-progress': { label: 'In Progress', status: 'normal' },
   'done': { label: 'Done', status: 'success' },

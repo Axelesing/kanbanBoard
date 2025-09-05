@@ -34,7 +34,7 @@ export function TaskForm({
         type="textarea"
         value={description}
         size="m"
-        minRows={13}
+        minRows={6}
         cols={75}
         label="Описание"
         placeholder="Введите описание задачи"

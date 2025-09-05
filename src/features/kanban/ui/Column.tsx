@@ -40,10 +40,14 @@ const StyledColumn = sc(Card)<{ isOver?: boolean }>`
   display: flex;
   flex-direction: column;
   width: ${convertPxToRem(400)};
-  font-size: 24px;
   border: 1px solid;
   border-radius: ${borderRadius};
   padding: ${mediumPadding};
   gap: ${mediumPadding};
   background-color: ${({ isOver }) => (isOver ? '#f5f5f5' : 'white')};
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 100%;
+  }
 `

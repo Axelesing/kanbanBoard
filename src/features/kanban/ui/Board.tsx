@@ -69,11 +69,14 @@ export function Board() {
         onDragEnd={handleDragEnd}
         onDragCancel={() => setActiveTask(null)}
       >
-        <Layout className={cnMixFlex({ justify: 'center', gap: 'l' })}>
+        <Layout
+          className={cnMixFlex({ justify: 'center', gap: 'l', wrap: 'wrap' })}
+        >
+          <Button onClick={addTask} label={'Add task'} />
+
           {columns.map((col) => (
             <Column key={col.id} {...col} />
           ))}
-          <Button onClick={addTask} label={'Add task'} />
         </Layout>
         <DragOverlay>
           {activeTask ? <ColumnCard task={activeTask} /> : null}
