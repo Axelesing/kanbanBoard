@@ -1,6 +1,5 @@
-import { BadgePropStatus } from '@consta/uikit/Badge'
-
 import { Column } from '@/constants/kanban'
+import { BadgePropStatus, TaskStatus } from '@/constants/kanban/data'
 
 interface MoveTaskProps {
   columns: Column[]
@@ -14,9 +13,9 @@ const columnStatusMap: Record<
   string,
   { label: string; status: BadgePropStatus }
 > = {
-  'todo': { label: 'To do', status: 'system' },
-  'in-progress': { label: 'In Progress', status: 'normal' },
-  'done': { label: 'Done', status: 'success' },
+  toDo: { label: 'To do', status: 'system' },
+  inProgress: { label: 'In Progress', status: 'normal' },
+  done: { label: 'Done', status: 'success' },
 }
 
 export function moveTask({
@@ -35,7 +34,12 @@ export function moveTask({
 
   const targetColumnId = newColumns[targetColIndex].id
   const newChip = columnStatusMap[targetColumnId]
-  const updatedTask = { ...movedTask, chip: newChip }
+
+  const updatedTask = {
+    ...movedTask,
+    chip: newChip,
+    status: targetColumnId as TaskStatus,
+  }
 
   newColumns[targetColIndex].tasks.splice(targetTaskIndex, 0, updatedTask)
 

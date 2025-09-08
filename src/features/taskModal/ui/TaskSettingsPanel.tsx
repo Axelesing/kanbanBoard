@@ -3,21 +3,27 @@ import { cnMixFlex } from '@consta/uikit/MixFlex'
 import sc from 'styled-components'
 
 import { primaryDarkNavy } from '@/constants/colors'
+import { TaskStatus } from '@/constants/kanban/data'
 import type { Item } from '@/shared/ui/select/UserSelect'
 
 import { CreatedField } from './CreatedField'
+import { TaskStatusField } from './TaskStatusField'
 import { UserSelectField } from './UserSelectField'
 
 type TaskSettingsPanelProps = {
   user: Item | null | undefined
   onUserChange: (v: Item | null | undefined) => void
-  date: Date
+  date?: Date | null
+  setStatus: (status: TaskStatus) => void
+  status: TaskStatus
 }
 
 export function TaskSettingsPanel({
   user,
   onUserChange,
   date,
+  setStatus,
+  status,
 }: TaskSettingsPanelProps) {
   return (
     <Panel
@@ -30,7 +36,10 @@ export function TaskSettingsPanel({
       flex={1}
     >
       <UserSelectField value={user} onChange={onUserChange} />
-      <CreatedField date={date} />
+
+      <TaskStatusField status={status} setStatus={setStatus} />
+
+      <CreatedField date={date!} />
     </Panel>
   )
 }

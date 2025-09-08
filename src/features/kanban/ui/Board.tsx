@@ -10,11 +10,12 @@ import {
   DragOverlay,
 } from '@dnd-kit/core'
 import { useGate, useUnit } from 'effector-react'
+import sc from 'styled-components'
 
 import type { Task } from '@/constants/kanban'
 
 import { findTaskIndexes, useBoardSensors, moveTask } from '../lib'
-import { $$kanban } from '../model/core'
+import { $$kanban } from '../model'
 
 import { Column } from './Column'
 import { ColumnCard } from './ColumnCard'
@@ -69,7 +70,7 @@ export function Board() {
         onDragEnd={handleDragEnd}
         onDragCancel={() => setActiveTask(null)}
       >
-        <Layout
+        <BoardLayout
           className={cnMixFlex({ justify: 'center', gap: 'l', wrap: 'wrap' })}
         >
           <Button onClick={addTask} label={'Add task'} />
@@ -77,7 +78,7 @@ export function Board() {
           {columns.map((col) => (
             <Column key={col.id} {...col} />
           ))}
-        </Layout>
+        </BoardLayout>
         <DragOverlay>
           {activeTask ? <ColumnCard task={activeTask} /> : null}
         </DragOverlay>
@@ -85,3 +86,12 @@ export function Board() {
     </>
   )
 }
+
+const BoardLayout = sc(Layout)`
+  flex-wrap: nowrap;
+  flex-direction: row;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 
 import { useUnit } from 'effector-react'
 
+import { TaskStatus } from '@/constants/kanban/data'
 import { $$kanban } from '@/features/kanban'
 import type { Item } from '@/shared/ui/select/UserSelect'
 import { $$modal } from '@/widgets/Modal'
@@ -19,18 +20,18 @@ export function useTaskModal() {
   ])
 
   const [title, setTitle] = useState<string | null | undefined>(null)
-  const [date, setDate] = useState<Date | null>(null)
   const [description, setDescription] = useState<string | null | undefined>(
     null,
   )
   const [user, setUser] = useState<Item | null | undefined>(null)
+  const [status, setStatus] = useState<TaskStatus>('toDo')
 
   useEffect(() => {
     if (!isOpen || !selectedTask) return
     setTitle(selectedTask.title ?? null)
-    setDate(selectedTask.date ?? null)
     setDescription(selectedTask.description ?? null)
     setUser(selectedTask.user ?? null)
+    setStatus(selectedTask.status ?? 'toDo')
   }, [isOpen, selectedTask, selectedTask?.id])
 
   const isTitleInvalid = useMemo(() => !title?.trim(), [title])
@@ -47,6 +48,7 @@ export function useTaskModal() {
       title: title!.trim(),
       description: description?.trim(),
       user,
+      status,
     })
     setOpen(false)
   }
@@ -70,7 +72,8 @@ export function useTaskModal() {
       setDescription,
       user,
       setUser,
-      date,
+      status,
+      setStatus,
       isTitleInvalid,
     },
   }

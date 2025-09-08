@@ -1,6 +1,15 @@
-import { BadgePropStatus } from '@consta/uikit/Badge'
-
 import { Item } from '@/shared/ui/select/UserSelect'
+
+export type BadgePropStatus =
+  | 'system'
+  | 'normal'
+  | 'success'
+  | 'warning'
+  | 'alert'
+  | 'disabled'
+  | 'error'
+
+export type TaskStatus = 'toDo' | 'inProgress' | 'done'
 
 type Chip = { label: string; status: BadgePropStatus }
 
@@ -8,6 +17,7 @@ export type Task = {
   id: string
   title: string
   description?: string
+  status: TaskStatus
   chip: Chip
   user?: Item | null
   date: Date
@@ -15,14 +25,20 @@ export type Task = {
 
 export type Column = { id: string; title: string; tasks: Task[] }
 
+export const statusToBadge: Record<TaskStatus, BadgePropStatus> = {
+  toDo: 'system',
+  inProgress: 'normal',
+  done: 'success',
+}
+
 export const STATUSES = {
   toDo: {
-    id: 'todo',
+    id: 'toDo',
     title: 'To Do',
     label: 'To Do',
   },
   inProgress: {
-    id: 'in-progress',
+    id: 'inProgress',
     title: 'In Progress',
     label: 'In Progress',
   },
@@ -49,9 +65,10 @@ export const INITIAL_COLUMNS = JSON.stringify([
         title: 'Задача 1',
         description: 'Описание задачи',
         date: new Date(),
+        status: 'toDo',
         chip: {
           label: 'To do',
-          status: 'system',
+          status: statusToBadge['toDo'],
         },
       },
       {
@@ -59,9 +76,10 @@ export const INITIAL_COLUMNS = JSON.stringify([
         title: 'Задача 2',
         description: 'Описание задачи',
         date: new Date(),
+        status: 'toDo',
         chip: {
           label: 'To do',
-          status: 'system',
+          status: statusToBadge['toDo'],
         },
       },
       {
@@ -69,9 +87,10 @@ export const INITIAL_COLUMNS = JSON.stringify([
         title: 'Задача 3',
         description: 'Описание задачи',
         date: new Date(),
+        status: 'toDo',
         chip: {
           label: 'To do',
-          status: 'system',
+          status: statusToBadge['toDo'],
         },
       },
     ],
@@ -85,9 +104,10 @@ export const INITIAL_COLUMNS = JSON.stringify([
         title: 'Задача 4',
         description: 'Описание задачи',
         date: new Date(),
+        status: 'inProgress',
         chip: {
           label: 'In Progress',
-          status: 'normal',
+          status: statusToBadge['inProgress'],
         },
       },
     ],
@@ -100,9 +120,10 @@ export const INITIAL_COLUMNS = JSON.stringify([
         id: '5',
         title: 'Задача 5',
         date: new Date(),
+        status: 'done',
         chip: {
           label: 'Done',
-          status: 'success',
+          status: statusToBadge['done'],
         },
       },
     ],

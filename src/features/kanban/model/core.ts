@@ -3,11 +3,8 @@ import { createGate } from 'effector-react'
 
 import { INITIAL_COLUMNS } from '@/constants/kanban'
 import type { Column as ColumnType } from '@/constants/kanban'
-import { Item } from '@/shared/ui/select/UserSelect'
 
-import { createNewTask } from '../lib'
-
-const kanbanGate = createGate('kanban')
+export const kanbanGate = createGate('kanban')
 
 // --- effects
 const loadFromStorageFx = createEffect(() => {
@@ -18,69 +15,23 @@ const loadFromStorageFx = createEffect(() => {
   )
 })
 
-const saveToStorageFx = createEffect((todos: ColumnType[]) => {
+export const saveToStorageFx = createEffect((todos: ColumnType[]) => {
   localStorage.setItem('kanbanData', JSON.stringify(todos))
 })
 
 // --- events
-const kanbanDataSet = createEvent<ColumnType[]>()
-const taskAdd = createEvent()
-const taskRemove = createEvent<{ id: string }>()
-const taskUpdate = createEvent<{
-  id: string
-  title: string
-  description: string | undefined
-  user?: Item | null
-}>()
+export const kanbanDataSet = createEvent<ColumnType[]>()
 
 // --- store
-const $kanbanData = createStore<ColumnType[]>([]).on(
+export const $kanbanData = createStore<ColumnType[]>([]).on(
   [kanbanDataSet, loadFromStorageFx.doneData],
   (_, data) => data,
 )
 
 // --- samples
-
 sample({
   clock: kanbanGate.open,
   target: loadFromStorageFx,
-})
-
-sample({
-  clock: taskAdd,
-  source: $kanbanData,
-  fn: (data) => {
-    const newTask = createNewTask(data)
-
-    return data.map((col) =>
-      col.id === 'todo' ? { ...col, tasks: [...col.tasks, newTask] } : col,
-    )
-  },
-  target: [$kanbanData, saveToStorageFx],
-})
-
-sample({
-  clock: taskUpdate,
-  source: $kanbanData,
-  fn: (data, { id, title, description, user }) =>
-    data.map((col) => ({
-      ...col,
-      tasks: col.tasks.map((t) =>
-        t.id === id ? { ...t, title, description, user } : t,
-      ),
-    })),
-  target: [$kanbanData, saveToStorageFx],
-})
-
-sample({
-  clock: taskRemove,
-  source: $kanbanData,
-  fn: (data, { id }) =>
-    data.map((col) => ({
-      ...col,
-      tasks: col.tasks.filter((t) => t.id !== id),
-    })),
-  target: [$kanbanData, saveToStorageFx],
 })
 
 sample({
@@ -89,7 +40,6 @@ sample({
 })
 
 // --- watchers
-
 saveToStorageFx.fail.watch(({ error }) => {
   console.error('Failed to save tasks:', error)
 })
@@ -97,14 +47,3 @@ saveToStorageFx.fail.watch(({ error }) => {
 loadFromStorageFx.fail.watch(({ error }) => {
   console.error('Failed to load tasks:', error)
 })
-
-// --- export
-
-export const $$kanban = {
-  kanbanDataSet,
-  taskAdd,
-  taskUpdate,
-  taskRemove,
-  $kanbanData,
-  kanbanGate,
-}

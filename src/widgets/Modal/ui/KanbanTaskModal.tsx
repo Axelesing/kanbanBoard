@@ -1,6 +1,7 @@
 import { Layout } from '@consta/uikit/Layout'
 import { cnMixFlex } from '@consta/uikit/MixFlex'
 import { Modal as ConstaModal } from '@consta/uikit/Modal'
+import { reflect } from '@effector/reflect'
 import sc from 'styled-components'
 
 import { extraBigPadding, mediumPadding } from '@/constants/styles'
@@ -8,6 +9,8 @@ import { useTaskModal } from '@/features/taskModal/hooks/useTaskModal'
 import { ModalActions } from '@/features/taskModal/ui/ModalActions'
 import { TaskForm } from '@/features/taskModal/ui/TaskForm'
 import { TaskSettingsPanel } from '@/features/taskModal/ui/TaskSettingsPanel'
+
+import { $$modal } from '../model/core'
 
 export function TaskModal() {
   const {
@@ -23,7 +26,8 @@ export function TaskModal() {
       user,
       setUser,
       isTitleInvalid,
-      date,
+      setStatus,
+      status,
     },
   } = useTaskModal()
 
@@ -44,7 +48,12 @@ export function TaskModal() {
           onTitleChange={setTitle}
           onDescriptionChange={setDescription}
         />
-        <TaskSettingsPanel user={user} onUserChange={setUser} date={date!} />
+        <_TaskSettingsPanel
+          user={user}
+          onUserChange={setUser}
+          setStatus={setStatus}
+          status={status}
+        />
       </LayoutWrapper>
 
       <ModalActions
@@ -56,6 +65,13 @@ export function TaskModal() {
     </ModalShell>
   )
 }
+
+const _TaskSettingsPanel = reflect({
+  view: TaskSettingsPanel,
+  bind: {
+    date: $$modal.$selectedTask.map((item) => item?.date || null),
+  },
+})
 
 const ModalShell = sc(ConstaModal)`
   padding: ${extraBigPadding};
