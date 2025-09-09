@@ -4,6 +4,7 @@ import { createGlobalStyle } from 'styled-components'
 
 import { router } from './app/providers/router'
 import { primaryDarkNavy } from './constants/colors'
+import { NotificationContainer } from '@/shared/ui/NotificationContainer'
 
 const GlobalStyle = createGlobalStyle`
   html, body, #root {
@@ -16,7 +17,7 @@ export function App() {
   return (
     <Theme preset={presetGpnDefault}>
       <GlobalStyle />
-
+      <NotificationContainer />
       <RouterProvider router={router} />
     </Theme>
   )

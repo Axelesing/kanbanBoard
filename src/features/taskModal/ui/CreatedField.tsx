@@ -1,10 +1,17 @@
-import { format } from 'date-fns'
+import { formatDate } from '../lib/helper'
+import { ScreenReaderOnly } from '@/shared/ui/ScreenReaderOnly'
 
 type CreatedFieldProps = {
-  date: Date
+  date: Date | null | undefined
 }
 
 export function CreatedField({ date }: CreatedFieldProps) {
-  const validDate = format(date, 'dd/MM/yyyy')
-  return <div>Дата создания: {validDate}</div>
+  const formattedDate = formatDate(date)
+
+  return (
+    <div>
+      <ScreenReaderOnly>Дата создания задачи: {formattedDate}</ScreenReaderOnly>
+      Дата создания: {formattedDate}
+    </div>
+  )
 }

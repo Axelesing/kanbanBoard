@@ -35,7 +35,6 @@ export function findTaskIndexes({
     targetColIndex = target.colIndex
     targetTaskIndex = target.taskIndex
   } else {
-    // если перетаскиваем на пустую колонку
     const colIndex = columns.findIndex((c) => c.id === overId)
     if (colIndex > -1) {
       targetColIndex = colIndex

@@ -39,7 +39,7 @@ export function TaskSettingsPanel({
 
       <TaskStatusField status={status} setStatus={setStatus} />
 
-      <CreatedField date={date!} />
+      <CreatedField date={date} />
     </Panel>
   )
 }

@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 
 import { useUnit } from 'effector-react'
 
 import { TaskStatus } from '@/constants/kanban/data'
 import { $$kanban } from '@/features/kanban'
 import type { Item } from '@/shared/ui/select/UserSelect'
+import { $$notifications } from '@/shared/model'
 import { $$modal } from '@/widgets/Modal'
 
 export function useTaskModal() {
@@ -34,47 +35,95 @@ export function useTaskModal() {
     setStatus(selectedTask.status ?? 'toDo')
   }, [isOpen, selectedTask, selectedTask?.id])
 
-  const isTitleInvalid = useMemo(() => !title?.trim(), [title])
+  const isTitleInvalid = !title?.trim()
+
+  const handleError = (error: unknown, operation: string) => {
+    console.error(`Error ${operation}:`, error)
+    $$notifications.showError(
+      `Ошибка ${operation}`,
+      `Не удалось ${operation} задачу`,
+    )
+  }
 
   const closeWithoutSave = () => setOpen(false)
 
-  const saveAndClose = () => {
+  const saveAndClose = useCallback(() => {
     if (!selectedTask?.id || isTitleInvalid) {
       setOpen(false)
       return
     }
-    updateTask({
-      id: selectedTask.id,
-      title: title!.trim(),
-      description: description?.trim(),
-      user,
-      status,
-    })
-    setOpen(false)
+
+    try {
+      updateTask({
+        id: selectedTask.id,
+        title: title!.trim(),
+        description: description?.trim(),
+        user,
+        status,
+      })
+      $$notifications.showSuccess(
+        'Задача сохранена',
+        'Изменения успешно применены',
+      )
+      setOpen(false)
+    } catch (error) {
+      handleError(error, 'сохранения')
+    }
+  }, [
+    selectedTask?.id,
+    isTitleInvalid,
+    title,
+    description,
+    user,
+    status,
+    updateTask,
+    setOpen,
+  ])
+
+  const removeAndClose = useCallback(() => {
+    if (selectedTask?.id) {
+      try {
+        removeTask({ id: selectedTask.id })
+        $$notifications.showSuccess(
+          'Задача удалена',
+          'Задача успешно удалена из доски',
+        )
+        setOpen(false)
+      } catch (error) {
+        handleError(error, 'удаления')
+      }
+    } else {
+      setOpen(false)
+    }
+  }, [selectedTask?.id, removeTask, setOpen])
+
+  const taskFormProps = {
+    title,
+    description,
+    isTitleInvalid,
+    onTitleChange: setTitle,
+    onDescriptionChange: setDescription,
   }
 
-  const removeAndClose = () => {
-    if (selectedTask?.id) {
-      removeTask({ id: selectedTask.id })
-    }
-    setOpen(false)
+  const taskSettingsProps = {
+    user,
+    onUserChange: setUser,
+    setStatus,
+    status,
+  }
+
+  const modalActionsProps = {
+    onClose: closeWithoutSave,
+    onRemove: removeAndClose,
+    onSave: saveAndClose,
+    disableSave: isTitleInvalid,
   }
 
   return {
     isOpen,
     closeWithoutSave,
-    saveAndClose,
-    removeAndClose,
-    form: {
-      title,
-      setTitle,
-      description,
-      setDescription,
-      user,
-      setUser,
-      status,
-      setStatus,
-      isTitleInvalid,
-    },
+    taskFormProps,
+    taskSettingsProps,
+    modalActionsProps,
   }
 }
