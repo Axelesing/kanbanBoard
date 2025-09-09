@@ -1,7 +1,7 @@
 import { Select } from '@consta/uikit/SelectCanary'
 import { Text } from '@consta/uikit/Text'
 
-import { STATUSES_SELECT, TaskStatus } from '@/constants/kanban/data'
+import { STATUSES_SELECT, TaskStatus } from '@/shared/constants/kanban/data'
 
 type TaskStatusFieldProps = {
   status: TaskStatus

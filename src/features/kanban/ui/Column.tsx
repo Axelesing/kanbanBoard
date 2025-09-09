@@ -4,8 +4,8 @@ import { useDroppable } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import sc from 'styled-components'
 
-import type { Column as ColumnType } from '@/constants/kanban'
-import { borderRadius, mediumPadding } from '@/constants/styles'
+import type { Column as ColumnType } from '@/shared/constants/kanban'
+import { borderRadius, mediumPadding } from '@/shared/constants/styles'
 import { convertPxToRem } from '@/shared/lib'
 
 import { SortableCard } from './SortableCard'

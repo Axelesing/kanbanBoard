@@ -4,7 +4,7 @@ import { Modal as ConstaModal } from '@consta/uikit/Modal'
 import { reflect } from '@effector/reflect'
 import sc from 'styled-components'
 
-import { extraBigPadding, mediumPadding } from '@/constants/styles'
+import { extraBigPadding, mediumPadding } from '@/shared/constants/styles'
 import { useTaskModal } from '@/features/taskModal/hooks/useTaskModal'
 import { ModalActions } from '@/features/taskModal/ui/ModalActions'
 import { TaskForm } from '@/features/taskModal/ui/TaskForm'

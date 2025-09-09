@@ -1,7 +1,7 @@
 import { createEvent, sample } from 'effector'
 
-import { Task } from '@/constants/kanban'
-import { TaskStatus, STATUSES, statusToBadge } from '@/constants/kanban/data'
+import { Task } from '@/shared/constants/kanban'
+import { TaskStatus, STATUSES, statusToBadge } from '@/shared/constants/kanban/data'
 import { Item } from '@/shared/ui/select/UserSelect'
 
 import { createNewTask } from '../lib'

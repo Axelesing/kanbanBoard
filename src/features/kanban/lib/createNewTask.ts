@@ -1,6 +1,6 @@
 import { badgePropStatus } from '@consta/uikit/Badge'
 
-import type { Column as ColumnType, Task } from '@/constants/kanban'
+import type { Column as ColumnType, Task } from '@/shared/constants/kanban'
 
 export function createNewTask(columns: ColumnType[]): Task {
   const allTaskIds = columns.flatMap((col) =>

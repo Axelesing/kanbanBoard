@@ -1,4 +1,4 @@
-import { Column } from '@/constants/kanban'
+import { Column } from '@/shared/constants/kanban'
 
 interface FindTaskIndexesProps {
   columns: Column[]

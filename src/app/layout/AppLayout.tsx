@@ -1,7 +1,7 @@
 import { Outlet, Link } from 'react-router-dom'
 
-import { primaryLightBlue } from '@/constants/colors'
-import { bigPadding } from '@/constants/styles'
+import { primaryLightBlue } from '@/shared/constants/colors'
+import { bigPadding } from '@/shared/constants/styles'
 
 export function AppLayout() {
   return (

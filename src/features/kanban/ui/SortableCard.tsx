@@ -9,8 +9,8 @@ import { CSS } from '@dnd-kit/utilities'
 import { useUnit } from 'effector-react'
 import sc from 'styled-components'
 
-import type { Task } from '@/constants/kanban'
-import { borderRadius, mediumPadding } from '@/constants/styles'
+import type { Task } from '@/shared/constants/kanban'
+import { borderRadius, mediumPadding } from '@/shared/constants/styles'
 import { $$modal } from '@/widgets/Modal'
 
 interface SortableCardProps {

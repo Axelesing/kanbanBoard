@@ -13,7 +13,7 @@ import {
 import { useGate, useUnit } from 'effector-react'
 import sc from 'styled-components'
 
-import type { Task } from '@/constants/kanban'
+import type { Task } from '@/shared/constants/kanban'
 
 import { findTaskIndexes, useBoardSensors, moveTask } from '../lib'
 import { $$kanban } from '../model'

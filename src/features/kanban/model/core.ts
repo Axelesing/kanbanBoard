@@ -1,8 +1,8 @@
 import { createEffect, createEvent, createStore, sample } from 'effector'
 import { createGate } from 'effector-react'
 
-import { INITIAL_COLUMNS } from '@/constants/kanban'
-import type { Column as ColumnType } from '@/constants/kanban'
+import { INITIAL_COLUMNS } from '@/shared/constants/kanban'
+import type { Column as ColumnType } from '@/shared/constants/kanban'
 import { $$notifications } from '@/shared/model'
 
 export const kanbanGate = createGate('kanban')

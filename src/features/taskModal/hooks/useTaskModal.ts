@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from 'react'
 
 import { useUnit } from 'effector-react'
 
-import { TaskStatus } from '@/constants/kanban/data'
+import { TaskStatus } from '@/shared/constants/kanban/data'
 import { $$kanban } from '@/features/kanban'
 import type { Item } from '@/shared/ui/select/UserSelect'
 import { $$notifications } from '@/shared/model'

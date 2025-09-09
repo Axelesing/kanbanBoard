@@ -2,8 +2,8 @@ import { Card } from '@consta/uikit/Card'
 import { Text } from '@consta/uikit/Text'
 import sc from 'styled-components'
 
-import type { Task } from '@/constants/kanban'
-import { borderRadius, smallPadding } from '@/constants/styles'
+import type { Task } from '@/shared/constants/kanban'
+import { borderRadius, smallPadding } from '@/shared/constants/styles'
 
 export function ColumnCard({ task }: { task: Task }) {
   return (

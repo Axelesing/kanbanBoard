@@ -1,5 +1,5 @@
-import { Column } from '@/constants/kanban'
-import { BadgePropStatus, TaskStatus } from '@/constants/kanban/data'
+import { Column } from '@/shared/constants/kanban'
+import { BadgePropStatus, TaskStatus } from '@/shared/constants/kanban/data'
 
 interface MoveTaskProps {
   columns: Column[]

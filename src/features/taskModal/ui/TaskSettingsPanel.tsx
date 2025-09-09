@@ -2,8 +2,8 @@ import { Layout } from '@consta/uikit/Layout'
 import { cnMixFlex } from '@consta/uikit/MixFlex'
 import sc from 'styled-components'
 
-import { primaryDarkNavy } from '@/constants/colors'
-import { TaskStatus } from '@/constants/kanban/data'
+import { primaryDarkNavy } from '@/shared/constants/colors'
+import { TaskStatus } from '@/shared/constants/kanban/data'
 import type { Item } from '@/shared/ui/select/UserSelect'
 
 import { CreatedField } from './CreatedField'
