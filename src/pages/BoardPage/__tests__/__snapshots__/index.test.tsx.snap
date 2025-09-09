@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`BoardPage matches snapshot 1`] = `
+<body>
+  <div>
+    <div>
+      Board
+    </div>
+    <div>
+      TaskModal
+    </div>
+  </div>
+</body>
+`;

@@ -94,4 +94,39 @@ export default [
       react: { version: 'detect' },
     },
   },
+
+  // Tests
+  {
+    files: ['**/*.test.{js,jsx,ts,tsx}', 'src/setupTests.ts'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...require('jest').environments.globals.globals,
+      },
+    },
+    plugins: {
+      'jest': require('eslint-plugin-jest'),
+      'testing-library': require('eslint-plugin-testing-library'),
+    },
+    rules: {
+      ...require('eslint-plugin-jest').configs.recommended.rules,
+      ...require('eslint-plugin-testing-library').configs.react.rules,
+      'no-restricted-imports': 'off',
+      'import-x/no-extraneous-dependencies': 'off',
+      '@typescript-eslint/no-unsafe-function-type': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/unbound-method': 'off',
+      'testing-library/prefer-screen-queries': 'off',
+      'jest/unbound-method': 'off',
+      'jest/prefer-strict-equal': 'warn',
+      'jest/prefer-expect-assertions': [
+        'warn',
+        { onlyFunctionsWithAsyncKeyword: true },
+      ],
+    },
+  },
 ]
