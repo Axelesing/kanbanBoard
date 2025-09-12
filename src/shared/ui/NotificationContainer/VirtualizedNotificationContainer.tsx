@@ -1,10 +1,10 @@
-import { memo, useCallback, useMemo } from 'react'
+import { memo, useMemo, useRef } from 'react'
 import { Box } from '@mui/material'
 import { useUnit } from 'effector-react'
+import { useVirtualizer } from '@tanstack/react-virtual'
 
 import { NotificationItem } from './NotificationItem'
-import { VirtualizedList } from '@/shared/ui/VirtualizedList'
-import { $$notifications, type Notification } from '@/shared/model'
+import { $$notifications } from '@/shared/model'
 
 /**
  * Виртуализированный контейнер уведомлений
@@ -16,29 +16,9 @@ export const VirtualizedNotificationContainer = memo(() => {
   ])
 
   const safeNotifications = Array.isArray(notifications) ? notifications : []
+  const parentRef = useRef<HTMLDivElement>(null)
 
   const shouldVirtualize = safeNotifications.length > 5
-
-  const renderNotification = useCallback(
-    ({
-      style,
-      item: notification,
-    }: {
-      index: number
-      style: React.CSSProperties
-      item: Notification
-    }) => {
-      return (
-        <div key={notification.id} style={style}>
-          <NotificationItem
-            notification={notification}
-            onRemove={() => removeNotification(notification.id)}
-          />
-        </div>
-      )
-    },
-    [removeNotification],
-  )
 
   const containerHeight = useMemo(() => {
     const maxHeight = 400
@@ -50,6 +30,14 @@ export const VirtualizedNotificationContainer = memo(() => {
 
     return Math.max(calculatedHeight, 100)
   }, [safeNotifications.length])
+
+  // Настройка виртуализатора
+  const virtualizer = useVirtualizer({
+    count: safeNotifications.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 80, // высота уведомления
+    overscan: 2,
+  })
 
   if (safeNotifications.length === 0) {
     return null
@@ -72,15 +60,43 @@ export const VirtualizedNotificationContainer = memo(() => {
       }}
     >
       {shouldVirtualize ? (
-        <VirtualizedList<Notification>
-          items={safeNotifications}
-          height={containerHeight}
-          itemHeight={80}
-          renderItem={renderNotification}
-          listProps={{
-            overscanCount: 2,
+        <Box
+          ref={parentRef}
+          sx={{
+            height: containerHeight,
+            overflow: 'auto',
           }}
-        />
+        >
+          <div
+            style={{
+              height: `${virtualizer.getTotalSize()}px`,
+              width: '100%',
+              position: 'relative',
+            }}
+          >
+            {virtualizer.getVirtualItems().map((virtualItem) => {
+              const notification = safeNotifications[virtualItem.index]
+              return (
+                <div
+                  key={notification.id}
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: `${virtualItem.size}px`,
+                    transform: `translateY(${virtualItem.start}px)`,
+                  }}
+                >
+                  <NotificationItem
+                    notification={notification}
+                    onRemove={() => removeNotification(notification.id)}
+                  />
+                </div>
+              )
+            })}
+          </div>
+        </Box>
       ) : (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
           {safeNotifications.map((notification) => (

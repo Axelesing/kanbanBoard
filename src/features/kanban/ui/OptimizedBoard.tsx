@@ -1,7 +1,9 @@
 import { ScreenReaderOnly } from '@/shared/ui/ScreenReaderOnly'
-import { useBoardState } from '../hooks/useBoardState'
-import { useBoardDragDrop } from '../hooks/useBoardDragDrop'
-import { useBoardFiltering } from '../hooks/useBoardFiltering'
+import {
+  useBoardState,
+  useBoardDragDrop,
+  useBoardFiltering,
+} from '@/features/kanban'
 import { BoardLoadingState } from './BoardLoadingState'
 import { BoardContent } from './BoardContent'
 

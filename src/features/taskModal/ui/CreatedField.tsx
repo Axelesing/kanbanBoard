@@ -1,4 +1,4 @@
-import { formatDate } from '../lib/helper'
+import { formatDate } from '@/features/taskModal'
 import { ScreenReaderOnly } from '@/shared/ui/ScreenReaderOnly'
 
 type CreatedFieldProps = {

@@ -7,7 +7,6 @@ export * from './TaskCard'
 export * from './ThemeProvider'
 export * from './ThemeSelector'
 export * from './ThemeToggle'
-export * from './VirtualizedList'
 
 // Провайдеры
 export * from './MuiThemeProvider'

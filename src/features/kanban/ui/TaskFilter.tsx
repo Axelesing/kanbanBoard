@@ -2,7 +2,7 @@ import { memo } from 'react'
 import { Box } from '@mui/material'
 
 import type { Task } from '@/shared/constants/kanban'
-import { useTaskFilter } from '../hooks/useTaskFilter'
+import { useTaskFilter } from '@/features/kanban'
 import { FilterSelectors } from './FilterSelectors'
 import { ActiveFiltersChips } from './ActiveFiltersChips'
 

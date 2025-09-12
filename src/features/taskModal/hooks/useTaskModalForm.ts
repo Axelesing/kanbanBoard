@@ -1,7 +1,9 @@
 import { useEffect, useCallback } from 'react'
 import { useFormValidation } from '@/shared/lib'
-import { editTaskValidationConfig } from '../lib/validation'
-import type { TaskFormData } from '../lib/validation'
+import {
+  editTaskValidationConfig,
+  type TaskFormData,
+} from '@/features/taskModal'
 import type { Task } from '@/shared/constants/kanban'
 
 interface UseTaskModalFormProps {

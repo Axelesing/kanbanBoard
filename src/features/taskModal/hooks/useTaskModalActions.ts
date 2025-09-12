@@ -3,7 +3,7 @@ import { useUnit } from 'effector-react'
 import { TaskStatus } from '@/shared/constants/kanban/data'
 import { $$kanban } from '@/features/kanban'
 import type { Task } from '@/shared/constants/kanban'
-import type { TaskFormData } from '../lib/validation'
+import type { TaskFormData } from '@/features/taskModal'
 import { useTaskModalErrors } from './useTaskModalErrors'
 
 interface UseTaskModalActionsProps {

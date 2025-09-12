@@ -38,7 +38,7 @@ const config = {
   },
 
   transformIgnorePatterns: [
-    'node_modules/(?!(@mui/material|@mui/icons-material|@emotion/react|@emotion/styled|react-window|react-window-infinite-loader)/)',
+    'node_modules/(?!(@mui/material|@mui/icons-material|@emotion/react|@emotion/styled|@tanstack/react-virtual)/)',
   ],
 
   collectCoverage: false,

@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react'
 import { DragEndEvent, DragStartEvent } from '@dnd-kit/core'
 import type { Task, Column } from '@/shared/constants/kanban'
-import { findTaskIndexes, moveTask } from '../lib'
+import { findTaskIndexes, moveTask } from '@/features/kanban'
 import { useThrottle } from '@/shared/lib'
 import { useErrorHandler } from '@/shared/hooks'
 

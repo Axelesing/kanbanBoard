@@ -31,7 +31,7 @@ export default defineConfig({
       'effector-react',
       '@dnd-kit/core',
       '@dnd-kit/sortable',
-      'react-window',
+      '@tanstack/react-virtual',
     ],
   },
 
@@ -64,7 +64,10 @@ export default defineConfig({
             if (id.includes('effector') || id.includes('patronum')) {
               return 'vendor-effector'
             }
-            if (id.includes('date-fns') || id.includes('react-window')) {
+            if (
+              id.includes('date-fns') ||
+              id.includes('@tanstack/react-virtual')
+            ) {
               return 'vendor-utils'
             }
             return 'vendor'

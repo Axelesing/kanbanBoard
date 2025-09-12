@@ -1,10 +1,10 @@
-import { memo, useCallback, useMemo } from 'react'
+import { memo, useMemo, useRef } from 'react'
 import { Card, CardContent, Typography, Box } from '@mui/material'
 import { useDroppable } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
+import { useVirtualizer } from '@tanstack/react-virtual'
 
-import type { Column as ColumnType, Task } from '@/shared/constants/kanban'
-import { VirtualizedList } from '@/shared/ui/VirtualizedList'
+import type { Column as ColumnType } from '@/shared/constants/kanban'
 import { pxToRem, BORDERS, RADIUS } from '@/shared/lib/converters'
 
 import { SortableCard } from './SortableCard'
@@ -20,6 +20,7 @@ interface VirtualizedColumnProps extends ColumnType {
 export const VirtualizedColumn = memo<VirtualizedColumnProps>(
   ({ id, title, tasks, minHeight = 400, maxHeight = 600 }) => {
     const { setNodeRef, isOver } = useDroppable({ id })
+    const parentRef = useRef<HTMLDivElement>(null)
 
     const columnHeight = useMemo(() => {
       const baseHeight = 100
@@ -29,34 +30,19 @@ export const VirtualizedColumn = memo<VirtualizedColumnProps>(
       return Math.min(Math.max(calculatedHeight, minHeight), maxHeight)
     }, [tasks.length, minHeight, maxHeight])
 
-    const renderTask = useCallback(
-      ({
-        style,
-        item: task,
-      }: {
-        index: number
-        style: React.CSSProperties
-        item: Task
-      }) => {
-        return (
-          <div
-            key={task.id}
-            style={{
-              ...style,
-              paddingBottom: pxToRem(16),
-            }}
-          >
-            <SortableCard id={task.id} task={task} />
-          </div>
-        )
-      },
-      [],
-    )
-
+    // Виртуализация с поддержкой drag-and-drop
     const shouldVirtualize = tasks.length > 10
     const shouldScroll = tasks.length > 4
 
     const taskIds = useMemo(() => tasks.map((t) => t.id), [tasks])
+
+    // Настройка виртуализатора
+    const virtualizer = useVirtualizer({
+      count: tasks.length,
+      getScrollElement: () => parentRef.current,
+      estimateSize: () => 136, // высота задачи + отступ
+      overscan: 5,
+    })
 
     return (
       <Card
@@ -103,19 +89,55 @@ export const VirtualizedColumn = memo<VirtualizedColumnProps>(
           >
             {shouldVirtualize ? (
               <Box
+                ref={parentRef}
                 sx={{
-                  height: columnHeight - 60,
+                  'height': columnHeight - 60,
+                  'overflow': 'auto',
+                  '&::-webkit-scrollbar': {
+                    width: pxToRem(9.5),
+                  },
+                  '&::-webkit-scrollbar-track': {
+                    background: 'var(--color-bg-secondary)',
+                    borderRadius: RADIUS.sm,
+                    margin: `${pxToRem(4)} 0`,
+                  },
+                  '&::-webkit-scrollbar-thumb': {
+                    background: 'var(--color-border-primary)',
+                    borderRadius: RADIUS.sm,
+                    border: `${BORDERS.thin} solid var(--color-bg-secondary)`,
+                  },
+                  '&::-webkit-scrollbar-thumb:hover': {
+                    background: 'var(--color-text-tertiary)',
+                  },
                 }}
               >
-                <VirtualizedList
-                  items={tasks}
-                  height={columnHeight - 60}
-                  itemHeight={136}
-                  renderItem={renderTask}
-                  listProps={{
-                    overscanCount: 5,
+                <div
+                  style={{
+                    height: `${virtualizer.getTotalSize()}px`,
+                    width: '100%',
+                    position: 'relative',
                   }}
-                />
+                >
+                  {virtualizer.getVirtualItems().map((virtualItem) => {
+                    const task = tasks[virtualItem.index]
+                    return (
+                      <div
+                        key={task.id}
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: '100%',
+                          height: `${virtualItem.size}px`,
+                          transform: `translateY(${virtualItem.start}px)`,
+                          paddingBottom: pxToRem(16),
+                        }}
+                      >
+                        <SortableCard id={task.id} task={task} />
+                      </div>
+                    )
+                  })}
+                </div>
               </Box>
             ) : (
               <Box

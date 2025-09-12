@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useGate, useUnit } from 'effector-react'
-import { $$kanban } from '../model'
+import { $$kanban } from '@/features/kanban'
 import { useListComputations } from '@/shared/hooks'
 
 /**

@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 import { TaskStatus } from '@/shared/constants/kanban/data'
-import type { Item } from '@/features/taskModal'
-import type { TaskFormData } from '../lib/validation'
+import type { Item, TaskFormData } from '@/features/taskModal'
 
 type FieldHandler = {
   value: any

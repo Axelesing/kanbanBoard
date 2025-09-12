@@ -2,7 +2,7 @@ import { lazy } from 'react'
 
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 
-import { AppLayout } from '../layout/AppLayout'
+import { AppLayout } from '@/app/layout/AppLayout'
 
 const BoardPage = lazy(() =>
   import('@/pages/BoardPage').then((mod) => ({ default: mod.BoardPage })),

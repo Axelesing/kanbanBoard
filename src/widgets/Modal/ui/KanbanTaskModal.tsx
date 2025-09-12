@@ -14,7 +14,7 @@ import {
 } from '@/features/taskModal'
 import { ScreenReaderOnly } from '@/shared/ui/ScreenReaderOnly'
 
-import { $$modal } from '../model/core'
+import { $$modal } from '@/widgets/Modal'
 
 export function TaskModal() {
   const {
