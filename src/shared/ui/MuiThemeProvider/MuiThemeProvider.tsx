@@ -2,6 +2,7 @@ import { ThemeProvider } from '@mui/material/styles'
 import { CssBaseline } from '@mui/material'
 import { createTheme } from '@mui/material/styles'
 import { useTheme as useOurTheme } from '@/shared/lib/theme/useTheme'
+import { RADIUS, BORDERS } from '@/shared/lib/converters'
 
 interface MuiThemeProviderProps {
   children: React.ReactNode
@@ -48,7 +49,7 @@ export function MuiThemeProvider({ children }: MuiThemeProviderProps) {
       },
     },
     shape: {
-      borderRadius: 8,
+      borderRadius: parseFloat(RADIUS.md),
     },
     typography: {
       fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
@@ -58,14 +59,14 @@ export function MuiThemeProvider({ children }: MuiThemeProviderProps) {
         styleOverrides: {
           root: {
             textTransform: 'none',
-            borderRadius: '8px',
+            borderRadius: RADIUS.md,
           },
         },
       },
       MuiCard: {
         styleOverrides: {
           root: {
-            borderRadius: '8px',
+            borderRadius: RADIUS.md,
             boxShadow:
               '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
           },
@@ -75,11 +76,11 @@ export function MuiThemeProvider({ children }: MuiThemeProviderProps) {
         styleOverrides: {
           root: {
             '& .MuiOutlinedInput-root': {
-              'borderRadius': '8px',
+              'borderRadius': RADIUS.md,
               '&.Mui-focused': {
                 '& .MuiOutlinedInput-notchedOutline': {
                   borderColor: currentTheme.variables['--color-border-focus'],
-                  borderWidth: '2px',
+                  borderWidth: BORDERS.medium,
                 },
               },
               '&:hover:not(.Mui-focused)': {

@@ -3,6 +3,7 @@ import { Card, CardContent, Typography, Chip, Avatar, Box } from '@mui/material'
 import { format } from 'date-fns'
 import { ru } from 'date-fns/locale'
 import type { Task } from '@/shared/constants/kanban'
+import { pxToRem, BORDERS } from '@/shared/lib/converters'
 
 interface TaskCardProps {
   'task': Task
@@ -38,12 +39,12 @@ export const TaskCard = memo<TaskCardProps>(
           'flexDirection': 'column',
           '&:hover': onClick
             ? {
-                transform: 'translateY(-2px)',
+                transform: `translateY(-${pxToRem(2)})`,
                 boxShadow: 2,
               }
             : {},
           'backgroundColor': 'var(--color-bg-secondary)',
-          'border': '1px solid var(--color-border-primary)',
+          'border': `${BORDERS.thin} solid var(--color-border-primary)`,
         }}
         onClick={onClick}
         onDoubleClick={onDoubleClick}

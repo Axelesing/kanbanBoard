@@ -5,6 +5,7 @@ import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
 import type { Column as ColumnType, Task } from '@/shared/constants/kanban'
 import { VirtualizedList } from '@/shared/ui/VirtualizedList'
+import { pxToRem, BORDERS, RADIUS } from '@/shared/lib/converters'
 
 import { SortableCard } from './SortableCard'
 
@@ -42,7 +43,7 @@ export const VirtualizedColumn = memo<VirtualizedColumnProps>(
             key={task.id}
             style={{
               ...style,
-              paddingBottom: '16px',
+              paddingBottom: pxToRem(16),
             }}
           >
             <SortableCard id={task.id} task={task} />
@@ -62,7 +63,7 @@ export const VirtualizedColumn = memo<VirtualizedColumnProps>(
         ref={setNodeRef}
         sx={{
           'backgroundColor': 'var(--color-bg-primary)',
-          'border': '1px solid var(--color-border-primary)',
+          'border': `${BORDERS.thin} solid var(--color-border-primary)`,
           'borderRadius': 2,
           'p': 2,
           'width': 360,
@@ -126,20 +127,20 @@ export const VirtualizedColumn = memo<VirtualizedColumnProps>(
                     'maxHeight': 400,
                     'overflowY': 'auto',
                     'overflowX': 'hidden',
-                    'padding': '4px 0',
+                    'padding': `${pxToRem(4)} 0`,
                     'boxSizing': 'border-box',
                     '&::-webkit-scrollbar': {
-                      width: '9.5px',
+                      width: pxToRem(9.5),
                     },
                     '&::-webkit-scrollbar-track': {
                       background: 'var(--color-bg-secondary)',
-                      borderRadius: '4px',
-                      margin: '4px 0',
+                      borderRadius: RADIUS.sm,
+                      margin: `${pxToRem(4)} 0`,
                     },
                     '&::-webkit-scrollbar-thumb': {
                       background: 'var(--color-border-primary)',
-                      borderRadius: '4px',
-                      border: '1px solid var(--color-bg-secondary)',
+                      borderRadius: RADIUS.sm,
+                      border: `${BORDERS.thin} solid var(--color-bg-secondary)`,
                     },
                     '&::-webkit-scrollbar-thumb:hover': {
                       background: 'var(--color-text-tertiary)',

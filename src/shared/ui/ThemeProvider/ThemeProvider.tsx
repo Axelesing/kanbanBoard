@@ -2,6 +2,7 @@ import { memo, useEffect } from 'react'
 import { createGlobalStyle } from 'styled-components'
 
 import { useTheme } from '@/shared/lib/theme/useTheme'
+import { pxToRem, BORDERS } from '@/shared/lib/converters'
 
 interface ThemeProviderProps {
   children: React.ReactNode
@@ -56,8 +57,8 @@ const GlobalStyles = createGlobalStyle<{ isDark: boolean }>`
   }
 
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: ${pxToRem(8)};
+    height: ${pxToRem(8)};
   }
 
   ::-webkit-scrollbar-track {
@@ -80,8 +81,8 @@ const GlobalStyles = createGlobalStyle<{ isDark: boolean }>`
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-border-focus);
-    outline-offset: 2px;
+    outline: ${BORDERS.medium} solid var(--color-border-focus);
+    outline-offset: ${pxToRem(2)};
   }
 
   a {
@@ -124,12 +125,12 @@ const GlobalStyles = createGlobalStyle<{ isDark: boolean }>`
   textarea:not(.MuiInputBase-input):not(.MuiOutlinedInput-input):not(.MuiFilledInput-input):not(.MuiInputBase-inputMultiline):focus, 
   select:not(.MuiSelect-select):focus {
     border-color: var(--color-border-focus);
-    box-shadow: 0 0 0 2px var(--color-border-focus);
+    box-shadow: 0 0 0 ${BORDERS.medium} var(--color-border-focus);
   }
 
   .card {
     background-color: var(--color-bg-primary);
-    border: 1px solid var(--color-border-primary);
+    border: ${BORDERS.thin} solid var(--color-border-primary);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
     transition: all 0.2s ease;
@@ -138,7 +139,7 @@ const GlobalStyles = createGlobalStyle<{ isDark: boolean }>`
   .card:hover {
     box-shadow: var(--shadow-md);
     border-color: var(--color-border-focus);
-    transform: translateY(-1px);
+    transform: translateY(-${pxToRem(1)});
   }
 
   .modal-overlay {
@@ -147,32 +148,32 @@ const GlobalStyles = createGlobalStyle<{ isDark: boolean }>`
 
   .modal-content {
     background-color: var(--color-bg-primary);
-    border: 1px solid var(--color-border-primary);
+    border: ${BORDERS.thin} solid var(--color-border-primary);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
   }
 
   .notification {
     background-color: var(--color-bg-primary);
-    border: 1px solid var(--color-border-primary);
+    border: ${BORDERS.thin} solid var(--color-border-primary);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
   }
 
   .notification.success {
-    border-left: 4px solid var(--color-success);
+    border-left: ${BORDERS.thick} solid var(--color-success);
   }
 
   .notification.warning {
-    border-left: 4px solid var(--color-warning);
+    border-left: ${BORDERS.thick} solid var(--color-warning);
   }
 
   .notification.error {
-    border-left: 4px solid var(--color-error);
+    border-left: ${BORDERS.thick} solid var(--color-error);
   }
 
   .notification.info {
-    border-left: 4px solid var(--color-info);
+    border-left: ${BORDERS.thick} solid var(--color-info);
   }
 
   .kanban-board {
@@ -183,7 +184,7 @@ const GlobalStyles = createGlobalStyle<{ isDark: boolean }>`
 
   .kanban-column {
     background-color: var(--color-bg-primary);
-    border: 1px solid var(--color-border-primary);
+    border: ${BORDERS.thin} solid var(--color-border-primary);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
     transition: all 0.2s ease;
@@ -196,7 +197,7 @@ const GlobalStyles = createGlobalStyle<{ isDark: boolean }>`
 
   .kanban-card {
     background-color: var(--color-bg-primary);
-    border: 1px solid var(--color-border-primary);
+    border: ${BORDERS.thin} solid var(--color-border-primary);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
     transition: all 0.2s ease;
@@ -206,7 +207,7 @@ const GlobalStyles = createGlobalStyle<{ isDark: boolean }>`
   .kanban-card:hover {
     box-shadow: var(--shadow-md);
     border-color: var(--color-primary);
-    transform: translateY(-2px);
+    transform: translateY(-${pxToRem(2)});
   }
 
   .kanban-card:active {
@@ -232,7 +233,7 @@ const GlobalStyles = createGlobalStyle<{ isDark: boolean }>`
   .btn-primary {
     background-color: var(--color-primary);
     color: var(--color-text-inverse);
-    border: 1px solid var(--color-primary);
+    border: ${BORDERS.thin} solid var(--color-primary);
     border-radius: var(--radius-md);
     padding: var(--spacing-sm) var(--spacing-md);
     transition: all 0.2s ease;
@@ -241,14 +242,14 @@ const GlobalStyles = createGlobalStyle<{ isDark: boolean }>`
   .btn-primary:hover {
     background-color: var(--color-primary-hover);
     border-color: var(--color-primary-hover);
-    transform: translateY(-1px);
+    transform: translateY(-${pxToRem(1)});
     box-shadow: var(--shadow-md);
   }
 
   .btn-secondary {
     background-color: var(--color-bg-primary);
     color: var(--color-text-primary);
-    border: 1px solid var(--color-border-primary);
+    border: ${BORDERS.thin} solid var(--color-border-primary);
     border-radius: var(--radius-md);
     padding: var(--spacing-sm) var(--spacing-md);
     transition: all 0.2s ease;
@@ -257,7 +258,7 @@ const GlobalStyles = createGlobalStyle<{ isDark: boolean }>`
   .btn-secondary:hover {
     background-color: var(--color-bg-secondary);
     border-color: var(--color-border-focus);
-    transform: translateY(-1px);
+    transform: translateY(-${pxToRem(1)});
     box-shadow: var(--shadow-sm);
   }
 `
