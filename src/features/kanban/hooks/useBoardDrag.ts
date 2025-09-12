@@ -2,7 +2,8 @@ import { useState, useCallback } from 'react'
 import { DragEndEvent, DragStartEvent } from '@dnd-kit/core'
 import type { Task, Column } from '@/shared/constants/kanban'
 import { findTaskIndexes, moveTask } from '../lib'
-import { useThrottle, logger } from '@/shared/lib'
+import { useThrottle } from '@/shared/lib'
+import { useErrorHandler } from '@/shared/hooks'
 
 interface UseBoardDragProps {
   columns: Column[]
@@ -24,6 +25,7 @@ export function useBoardDrag({
   onUpdateBoard,
 }: UseBoardDragProps): UseBoardDragReturn {
   const [activeTask, setActiveTask] = useState<Task | null>(null)
+  const { handleError } = useErrorHandler()
 
   const throttledUpdateBoard = useThrottle(onUpdateBoard, 100)
 
@@ -57,12 +59,11 @@ export function useBoardDrag({
       } = findTaskIndexes({ columns, activeId, overId })
 
       if (sourceColIndex === -1 || targetColIndex === -1) {
-        logger.warn('Invalid task indexes during drag operation', {
-          activeId,
-          overId,
-          sourceColIndex,
-          targetColIndex,
-        })
+        handleError(
+          new Error('Invalid task indexes during drag operation'),
+          'drag-operation',
+          'Не удалось переместить задачу',
+        )
         return
       }
 
@@ -77,12 +78,11 @@ export function useBoardDrag({
 
         throttledUpdateBoard(newColumns)
       } catch (error) {
-        logger.error('Error during task move operation', error as Error, {
-          activeId,
-          overId,
-          sourceColIndex,
-          targetColIndex,
-        })
+        handleError(
+          error,
+          'task-move-operation',
+          'Ошибка при перемещении задачи',
+        )
       }
     },
     [columns, throttledUpdateBoard],

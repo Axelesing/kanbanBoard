@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { useGate, useUnit } from 'effector-react'
 import { $$kanban } from '../model'
+import { useListComputations } from '@/shared/hooks'
 
 /**
  * Хук для управления состоянием канбан доски
@@ -14,21 +15,22 @@ export function useBoardState() {
     $$kanban.taskAdd,
   ])
 
-  const boardStats = useMemo(() => {
-    const totalTasks = columns.reduce(
-      (total, col) => total + col.tasks.length,
-      0,
-    )
-    const allTasks = columns.flatMap((col) => col.tasks)
-    const columnCount = columns.length
+  const allTasks = useMemo(() => columns.flatMap((col) => col.tasks), [columns])
 
-    return {
-      totalTasks,
+  const { stats: taskStats } = useListComputations({
+    items: allTasks,
+    computeStats: true,
+  })
+
+  const boardStats = useMemo(
+    () => ({
+      totalTasks: taskStats?.total || 0,
       allTasks,
-      columnCount,
+      columnCount: columns.length,
       isEmpty: columns.length === 0,
-    }
-  }, [columns])
+    }),
+    [taskStats, allTasks, columns.length],
+  )
 
   const isLoading = !columns || columns.length === 0
 
