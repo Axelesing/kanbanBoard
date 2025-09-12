@@ -1,10 +1,11 @@
-import { Layout } from '@consta/uikit/Layout'
-import { cnMixFlex } from '@consta/uikit/MixFlex'
-import { Modal as ConstaModal } from '@consta/uikit/Modal'
+import {
+  Box,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from '@mui/material'
 import { reflect } from '@effector/reflect'
-import sc from 'styled-components'
-
-import { extraBigPadding, mediumPadding } from '@/shared/constants/styles'
 import { useTaskModal } from '@/features/taskModal/hooks/useTaskModal'
 import { ModalActions } from '@/features/taskModal/ui/ModalActions'
 import { TaskForm } from '@/features/taskModal/ui/TaskForm'
@@ -27,15 +28,11 @@ export function TaskModal() {
   }
 
   return (
-    <ModalShell
-      isOpen={isOpen}
-      hasOverlay
-      position="top"
-      onClickOutside={closeWithoutSave}
-      onEsc={closeWithoutSave}
-      className={cnMixFlex({ direction: 'column', gap: 'l', align: 'stretch' })}
-      role="dialog"
-      aria-modal="true"
+    <Dialog
+      open={isOpen}
+      onClose={closeWithoutSave}
+      maxWidth="lg"
+      fullWidth
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
     >
@@ -47,17 +44,27 @@ export function TaskModal() {
         задачи
       </ScreenReaderOnly>
 
-      <LayoutWrapper
-        className={cnMixFlex({ gap: 'l', align: 'stretch' })}
-        role="form"
-        aria-label="Форма задачи"
-      >
-        <TaskForm {...taskFormProps} />
-        <_TaskSettingsPanel {...taskSettingsProps} />
-      </LayoutWrapper>
+      <DialogTitle>Редактирование задачи</DialogTitle>
 
-      <ModalActions {...modalActionsProps} />
-    </ModalShell>
+      <DialogContent>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 3,
+            mt: 2,
+          }}
+          role="form"
+          aria-label="Форма задачи"
+        >
+          <TaskForm {...taskFormProps} />
+          <_TaskSettingsPanel {...taskSettingsProps} />
+        </Box>
+      </DialogContent>
+
+      <DialogActions>
+        <ModalActions {...modalActionsProps} />
+      </DialogActions>
+    </Dialog>
   )
 }
 
@@ -67,55 +74,3 @@ const _TaskSettingsPanel = reflect({
     date: $$modal.$selectedTask.map((item) => item?.date || null),
   },
 })
-
-const ModalShell = sc(ConstaModal)`
-  padding: ${extraBigPadding};
-  max-width: 90vw;
-  max-height: 90vh;
-  overflow-y: auto;
-  
-  transition: all 0.3s ease-in-out;
-  
-  @media (max-width: 1024px) {
-    max-width: 95vw;
-    padding: ${mediumPadding};
-  }
-  
-  @media (max-width: 768px) {
-    width: 100%;
-    max-width: 100%;
-    border-radius: 0;
-    height: 100%;
-    max-height: 100%;
-    padding: ${mediumPadding};
-  }
-  
-  @media (max-width: 480px) {
-    padding: 1rem;
-  }
-  
-  &:focus-within {
-    outline: 2px solid #007bff;
-    outline-offset: 2px;
-  }
-`
-
-const LayoutWrapper = sc(Layout)`
-  min-height: 200px;
-  
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 16px;
-    padding: ${mediumPadding};
-  }
-  
-  @media (max-width: 480px) {
-    gap: 12px;
-    padding: 0.5rem;
-  }
-`

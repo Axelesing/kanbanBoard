@@ -1,4 +1,5 @@
 import { format, isValid, parseISO } from 'date-fns'
+import { logger } from '@/shared/lib/logger'
 
 export const formatDate = (inputDate: Date | null | undefined): string => {
   if (!inputDate) {
@@ -24,7 +25,7 @@ export const formatDate = (inputDate: Date | null | undefined): string => {
   try {
     return format(dateToFormat, 'dd/MM/yyyy')
   } catch (error) {
-    console.error('Error formatting date:', error)
+    logger.error('Error formatting date', error as Error, { inputDate })
     return 'Ошибка форматирования'
   }
 }

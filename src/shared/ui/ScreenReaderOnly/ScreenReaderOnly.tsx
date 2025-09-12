@@ -1,4 +1,4 @@
-import sc from 'styled-components'
+import { Box } from '@mui/material'
 
 interface ScreenReaderOnlyProps {
   id?: string
@@ -6,17 +6,24 @@ interface ScreenReaderOnlyProps {
 }
 
 export function ScreenReaderOnly({ id, children }: ScreenReaderOnlyProps) {
-  return <StyledDiv id={id}>{children}</StyledDiv>
+  return (
+    <Box
+      id={id}
+      sx={{
+        position: 'absolute',
+        width: '1px',
+        height: '1px',
+        padding: 0,
+        margin: '-1px',
+        overflow: 'hidden',
+        clip: 'rect(0, 0, 0, 0)',
+        whiteSpace: 'nowrap',
+        border: 0,
+        left: '-10000px',
+        top: 'auto',
+      }}
+    >
+      {children}
+    </Box>
+  )
 }
-
-const StyledDiv = sc.div`
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-`

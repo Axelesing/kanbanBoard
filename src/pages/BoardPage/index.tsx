@@ -1,11 +1,17 @@
-import { Board } from '@/features/kanban'
-import { TaskModal } from '@/widgets/Modal'
+import { lazy, Suspense } from 'react'
+import { OptimizedBoard } from '@/features/kanban/ui/OptimizedBoard'
+
+const TaskModal = lazy(() =>
+  import('@/widgets/Modal').then((mod) => ({ default: mod.TaskModal })),
+)
 
 export function BoardPage() {
   return (
     <>
-      <Board />
-      <TaskModal />
+      <OptimizedBoard />
+      <Suspense fallback={null}>
+        <TaskModal />
+      </Suspense>
     </>
   )
 }

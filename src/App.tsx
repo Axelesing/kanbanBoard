@@ -1,24 +1,20 @@
-import { Theme, presetGpnDefault } from '@consta/uikit/Theme'
 import { RouterProvider } from 'react-router-dom'
-import { createGlobalStyle } from 'styled-components'
 
 import { router } from './app/providers/router'
-import { primaryDarkNavy } from './constants/colors'
 import { NotificationContainer } from '@/shared/ui/NotificationContainer'
-
-const GlobalStyle = createGlobalStyle`
-  html, body, #root {
-    color: ${primaryDarkNavy};
-    margin: 0;
-  }
-`
+import { ThemeProvider } from '@/shared/ui/ThemeProvider'
+import { MuiThemeProvider } from '@/shared/ui/MuiThemeProvider'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary'
 
 export function App() {
   return (
-    <Theme preset={presetGpnDefault}>
-      <GlobalStyle />
-      <NotificationContainer />
-      <RouterProvider router={router} />
-    </Theme>
+    <ErrorBoundary>
+      <ThemeProvider>
+        <MuiThemeProvider>
+          <NotificationContainer />
+          <RouterProvider router={router} />
+        </MuiThemeProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   )
 }

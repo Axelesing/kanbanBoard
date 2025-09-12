@@ -1,15 +1,17 @@
 import { createEvent, sample } from 'effector'
 
 import { Task } from '@/shared/constants/kanban'
-import { TaskStatus, STATUSES, statusToBadge } from '@/shared/constants/kanban/data'
+import {
+  TaskStatus,
+  STATUSES,
+  statusToBadge,
+} from '@/shared/constants/kanban/data'
 import { Item } from '@/shared/ui/select/UserSelect'
-
-import { createNewTask } from '../lib'
 
 import { $kanbanData, saveToStorageFx } from './core'
 
 // --- events
-export const taskAdd = createEvent()
+export const taskAdd = createEvent<Task>()
 export const taskRemove = createEvent<{ id: string }>()
 export const taskUpdate = createEvent<{
   id: string
@@ -27,11 +29,11 @@ export const taskStatusChange = createEvent<{
 sample({
   clock: taskAdd,
   source: $kanbanData,
-  fn: (data) => {
-    const newTask = createNewTask(data)
-
+  fn: (data, newTask) => {
     return data.map((col) =>
-      col.id === 'toDo' ? { ...col, tasks: [...col.tasks, newTask] } : col,
+      col.id === newTask.status
+        ? { ...col, tasks: [...col.tasks, newTask] }
+        : col,
     )
   },
   target: [$kanbanData, saveToStorageFx],

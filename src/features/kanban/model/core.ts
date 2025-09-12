@@ -4,6 +4,7 @@ import { createGate } from 'effector-react'
 import { INITIAL_COLUMNS } from '@/shared/constants/kanban'
 import type { Column as ColumnType } from '@/shared/constants/kanban'
 import { $$notifications } from '@/shared/model'
+import { logger } from '@/shared/lib/logger'
 
 export const kanbanGate = createGate('kanban')
 
@@ -25,14 +26,18 @@ const loadFromStorageFx = createEffect(() => {
           date = new Date(task.date)
 
           if (isNaN(date.getTime())) {
-            console.warn(
-              `Invalid date for task ${task.id}: ${task.date}, using current date`,
-            )
+            logger.warn('Invalid date for task, using current date', {
+              taskId: task.id,
+              invalidDate: task.date,
+            })
             date = new Date()
           }
         }
       } catch (error) {
-        console.error(`Error parsing date for task ${task.id}:`, error)
+        logger.error('Error parsing date for task', error as Error, {
+          taskId: task.id,
+          date: task.date,
+        })
         date = new Date()
       }
 
@@ -70,7 +75,7 @@ sample({
 
 // --- watchers
 saveToStorageFx.fail.watch(({ error }) => {
-  console.error('Failed to save tasks:', error)
+  logger.error('Failed to save tasks', error, { operation: 'saveToStorage' })
   $$notifications.showError(
     'Ошибка сохранения',
     'Не удалось сохранить данные канбан доски',
@@ -78,7 +83,7 @@ saveToStorageFx.fail.watch(({ error }) => {
 })
 
 loadFromStorageFx.fail.watch(({ error }) => {
-  console.error('Failed to load tasks:', error)
+  logger.error('Failed to load tasks', error, { operation: 'loadFromStorage' })
   $$notifications.showError(
     'Ошибка загрузки',
     'Не удалось загрузить данные канбан доски',

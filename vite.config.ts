@@ -20,11 +20,47 @@ export default defineConfig({
     outDir: 'build',
     emptyOutDir: true,
     sourcemap: true,
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
         entryFileNames: 'assets/js/[name].js',
         chunkFileNames: 'assets/js/[name].[hash:8].js',
         assetFileNames: 'assets/[ext]/[name].[hash:8].[ext]',
+        manualChunks: (id) => {
+          // Vendor chunks
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'vendor-react'
+            }
+            if (id.includes('react-router')) {
+              return 'vendor-router'
+            }
+            if (id.includes('@mui') || id.includes('@emotion')) {
+              return 'vendor-mui'
+            }
+            if (id.includes('@dnd-kit')) {
+              return 'vendor-dnd'
+            }
+            if (id.includes('effector') || id.includes('patronum')) {
+              return 'vendor-effector'
+            }
+            if (id.includes('date-fns') || id.includes('react-window')) {
+              return 'vendor-utils'
+            }
+            return 'vendor'
+          }
+
+          // Feature chunks
+          if (id.includes('src/features/kanban/ui/')) {
+            return 'feature-kanban'
+          }
+          if (id.includes('src/features/taskModal/ui/')) {
+            return 'feature-task-modal'
+          }
+          if (id.includes('src/widgets/Modal/')) {
+            return 'widget-modal'
+          }
+        },
       },
     },
   },

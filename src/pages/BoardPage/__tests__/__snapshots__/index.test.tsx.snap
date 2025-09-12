@@ -4,10 +4,7 @@ exports[`BoardPage matches snapshot 1`] = `
 <body>
   <div>
     <div>
-      Board
-    </div>
-    <div>
-      TaskModal
+      OptimizedBoard
     </div>
   </div>
 </body>

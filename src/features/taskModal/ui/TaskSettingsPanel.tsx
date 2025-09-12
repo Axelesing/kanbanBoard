@@ -1,8 +1,5 @@
-import { Layout } from '@consta/uikit/Layout'
-import { cnMixFlex } from '@consta/uikit/MixFlex'
-import sc from 'styled-components'
+import { Box } from '@mui/material'
 
-import { primaryDarkNavy } from '@/shared/constants/colors'
 import { TaskStatus } from '@/shared/constants/kanban/data'
 import type { Item } from '@/shared/ui/select/UserSelect'
 
@@ -26,32 +23,28 @@ export function TaskSettingsPanel({
   status,
 }: TaskSettingsPanelProps) {
   return (
-    <Panel
-      className={cnMixFlex({
-        direction: 'column',
-        gap: 'l',
-        align: 'stretch',
-        justify: 'space-between',
-      })}
-      flex={1}
+    <Box
+      sx={{
+        'display': 'flex',
+        'flexDirection': 'column',
+        'gap': 3,
+        'alignItems': 'stretch',
+        'justifyContent': 'space-between',
+        'flex': 1,
+        'borderLeft': '1px solid var(--color-border-primary)',
+        'px': 2,
+        '@media (max-width: 768px)': {
+          px: 1,
+          borderLeft: 'none',
+          borderTop: '1px solid var(--color-border-primary)',
+        },
+      }}
     >
       <UserSelectField value={user} onChange={onUserChange} />
 
       <TaskStatusField status={status} setStatus={setStatus} />
 
       <CreatedField date={date} />
-    </Panel>
+    </Box>
   )
 }
-
-const Panel = sc(Layout)`
-  border-left: 1px solid ${primaryDarkNavy};
-  padding: 16px;
-
-  @media (max-width: 768px) {
-    padding: 8px 0;
-
-    border-left: none;
-    border-top: 1px solid ${primaryDarkNavy};
-  }
-`

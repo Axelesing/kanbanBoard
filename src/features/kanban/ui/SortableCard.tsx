@@ -1,16 +1,11 @@
-import { IconDraggable } from '@consta/icons/IconDraggable'
-import { Avatar } from '@consta/uikit/Avatar'
-import { Badge } from '@consta/uikit/Badge'
-import { Card } from '@consta/uikit/Card'
-import { cnMixFlex } from '@consta/uikit/MixFlex'
-import { Text } from '@consta/uikit/Text'
+import { DragIndicator } from '@mui/icons-material'
+import { Box } from '@mui/material'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { useUnit } from 'effector-react'
-import sc from 'styled-components'
 
 import type { Task } from '@/shared/constants/kanban'
-import { borderRadius, mediumPadding } from '@/shared/constants/styles'
+import { TaskCard } from '@/shared/ui/TaskCard'
 import { $$modal } from '@/widgets/Modal'
 
 interface SortableCardProps {
@@ -23,8 +18,7 @@ export function SortableCard({ id, task }: SortableCardProps) {
     $$modal.modalViewSet,
     $$modal.modalTaskSet,
   ])
-  const { id: taskId, chip, title } = task
-  const user = task?.user
+  const { id: taskId } = task
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id })
 
@@ -36,59 +30,39 @@ export function SortableCard({ id, task }: SortableCardProps) {
   }
 
   return (
-    <StyledCard
+    <Box
       ref={setNodeRef}
       style={style}
       {...attributes}
-      horizontalSpace="3xl"
-      verticalSpace="3xl"
-      onClick={handleModal}
+      sx={{
+        'position': 'relative',
+        'mr': 1,
+        '&:hover .drag-indicator': {
+          opacity: 1,
+        },
+      }}
     >
-      <div
-        className={cnMixFlex({ direction: 'row', justify: 'space-between' })}
-      >
-        <div
-          className={cnMixFlex({ direction: 'row', justify: 'space-between' })}
-          style={{ flex: 1, minWidth: 0 }}
-        >
-          <StyledText size="l" lineHeight="m">
-            {title}
-          </StyledText>
-          {!!user && (
-            <Avatar
-              style={{ minWidth: 32 }}
-              name={user.label}
-              url={user.avatarUrl}
-            />
-          )}
-        </div>
-        <IconDraggable
-          size="l"
-          {...listeners}
-          style={{ cursor: 'grab', marginLeft: 8 }}
-        />
-      </div>
-      <Badge size="s" status={chip.status} label={chip.label} />
-    </StyledCard>
+      <TaskCard
+        task={task}
+        onClick={handleModal}
+        aria-label={`Задача: ${task.title}. Нажмите для редактирования`}
+      />
+      <DragIndicator
+        {...listeners}
+        className="drag-indicator"
+        sx={{
+          'cursor': 'grab',
+          'position': 'absolute',
+          'top': 8,
+          'right': 8,
+          'color': 'var(--color-text-secondary)',
+          'opacity': 0.3,
+          'transition': 'opacity 0.2s ease-in-out',
+          '&:hover': {
+            opacity: 1,
+          },
+        }}
+      />
+    </Box>
   )
 }
-
-const StyledCard = sc(Card)`
-  background-color: white;
-  border: 1px solid;
-  cursor: pointer;
-  user-select: none;
-  border-radius: ${borderRadius};
-  padding: ${mediumPadding};
-
-  @media (max-width: 768px) {
-    padding: 12px;
-  }
-`
-
-const StyledText = sc(Text)`
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-`

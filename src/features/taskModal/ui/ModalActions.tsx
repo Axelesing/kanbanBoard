@@ -1,7 +1,5 @@
-import { Button } from '@consta/uikit/Button'
-import { Layout } from '@consta/uikit/Layout'
-import { cnMixFlex } from '@consta/uikit/MixFlex'
-import sc from 'styled-components'
+import { memo } from 'react'
+import { Button, Box } from '@mui/material'
 
 type ModalActionsProps = {
   onClose: () => void
@@ -10,37 +8,51 @@ type ModalActionsProps = {
   disableSave?: boolean
 }
 
-export function ModalActions({
-  onClose,
-  onRemove,
-  onSave,
-  disableSave,
-}: ModalActionsProps) {
-  return (
-    <LayoutWrapper
-      className={cnMixFlex({
-        direction: 'row',
-        justify: 'space-between',
-        wrap: 'wrap',
-        gap: 's',
-      })}
-    >
-      <Button size="l" view="primary" label="Закрыть" onClick={onClose} />
-      <Button size="l" view="primary" label="Удалить" onClick={onRemove} />
-      <Button
-        size="l"
-        view="primary"
-        label="Сохранить"
-        onClick={onSave}
-        disabled={disableSave}
-      />
-    </LayoutWrapper>
-  )
-}
+export const ModalActions = memo<ModalActionsProps>(
+  ({ onClose, onRemove, onSave, disableSave }: ModalActionsProps) => {
+    return (
+      <Box
+        sx={{
+          'display': 'flex',
+          'flexDirection': 'row',
+          'justifyContent': 'space-between',
+          'flexWrap': 'wrap',
+          'gap': 1,
+          '@media (max-width: 768px)': {
+            flexDirection: 'column',
+            alignItems: 'center',
+          },
+        }}
+      >
+        <Button
+          size="large"
+          variant="outlined"
+          onClick={onClose}
+          aria-label="Закрыть модальное окно"
+        >
+          Закрыть
+        </Button>
+        <Button
+          size="large"
+          variant="outlined"
+          color="error"
+          onClick={onRemove}
+          aria-label="Удалить задачу"
+        >
+          Удалить
+        </Button>
+        <Button
+          size="large"
+          variant="contained"
+          onClick={onSave}
+          disabled={disableSave}
+          aria-label="Сохранить изменения"
+        >
+          Сохранить
+        </Button>
+      </Box>
+    )
+  },
+)
 
-const LayoutWrapper = sc(Layout)`
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-  }
-`
+ModalActions.displayName = 'ModalActions'

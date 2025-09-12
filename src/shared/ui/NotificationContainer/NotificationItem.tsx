@@ -1,10 +1,13 @@
-import { Badge } from '@consta/uikit/Badge'
-import { Button } from '@consta/uikit/Button'
-import { Card } from '@consta/uikit/Card'
-import { Text } from '@consta/uikit/Text'
-import { IconClose } from '@consta/icons/IconClose'
+import {
+  Card,
+  CardContent,
+  IconButton,
+  Typography,
+  Box,
+  Chip,
+} from '@mui/material'
+import { Close } from '@mui/icons-material'
 import { useEffect } from 'react'
-import sc from 'styled-components'
 
 import type { Notification } from '@/shared/model'
 import { ScreenReaderOnly } from '@/shared/ui/ScreenReaderOnly'
@@ -25,18 +28,18 @@ export function NotificationItem({
     }
   }, [notification.duration, onRemove])
 
-  const getBadgeStatus = (type: Notification['type']) => {
+  const getChipColor = (type: Notification['type']) => {
     switch (type) {
       case 'success':
         return 'success'
       case 'error':
-        return 'alert'
+        return 'error'
       case 'warning':
         return 'warning'
       case 'info':
-        return 'normal'
+        return 'info'
       default:
-        return 'normal'
+        return 'default'
     }
   }
 
@@ -55,51 +58,7 @@ export function NotificationItem({
     }
   }
 
-  return (
-    <StyledCard type={notification.type} verticalSpace="s" horizontalSpace="s">
-      <ScreenReaderOnly>
-        Уведомление типа {notification.type}: {notification.title}
-      </ScreenReaderOnly>
-      <Header>
-        <Badge
-          status={getBadgeStatus(notification.type)}
-          label={getIcon(notification.type)}
-          size="s"
-        />
-        <Text size="s" weight="bold">
-          {notification.title}
-        </Text>
-        <Button
-          size="xs"
-          view="ghost"
-          iconLeft={IconClose}
-          onClick={onRemove}
-          aria-label="Закрыть уведомление"
-        />
-      </Header>
-
-      {notification.message && (
-        <Message>
-          <Text size="xs">{notification.message}</Text>
-        </Message>
-      )}
-
-      {notification.action && (
-        <Action>
-          <Button
-            size="xs"
-            view="ghost"
-            label={notification.action.label}
-            onClick={notification.action.onClick}
-          />
-        </Action>
-      )}
-    </StyledCard>
-  )
-}
-
-const StyledCard = sc(Card)<{ type: Notification['type'] }>`
-  border-left: 4px solid ${({ type }) => {
+  const getBorderColor = (type: Notification['type']) => {
     switch (type) {
       case 'success':
         return '#28a745'
@@ -112,34 +71,73 @@ const StyledCard = sc(Card)<{ type: Notification['type'] }>`
       default:
         return '#6c757d'
     }
-  }};
-  
-  animation: slideIn 0.3s ease-out;
-  
-  @keyframes slideIn {
-    from {
-      transform: translateX(100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(0);
-      opacity: 1;
-    }
   }
-`
 
-const Header = sc.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-`
+  return (
+    <Card
+      sx={{
+        'borderLeft': `4px solid ${getBorderColor(notification.type)}`,
+        'animation': 'slideIn 0.3s ease-out',
+        '@keyframes slideIn': {
+          from: {
+            transform: 'translateX(100%)',
+            opacity: 0,
+          },
+          to: {
+            transform: 'translateX(0)',
+            opacity: 1,
+          },
+        },
+      }}
+    >
+      <CardContent sx={{ 'p': 1.5, '&:last-child': { pb: 1.5 } }}>
+        <ScreenReaderOnly>
+          Уведомление типа {notification.type}: {notification.title}
+        </ScreenReaderOnly>
 
-const Message = sc.div`
-  margin-bottom: 8px;
-`
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
+            mb: 1,
+          }}
+        >
+          <Chip
+            label={getIcon(notification.type)}
+            color={getChipColor(notification.type)}
+            size="small"
+          />
+          <Typography variant="body2" fontWeight="bold" sx={{ flex: 1 }}>
+            {notification.title}
+          </Typography>
+          <IconButton
+            size="small"
+            onClick={onRemove}
+            aria-label="Закрыть уведомление"
+          >
+            <Close fontSize="small" />
+          </IconButton>
+        </Box>
 
-const Action = sc.div`
-  display: flex;
-  justify-content: flex-end;
-`
+        {notification.message && (
+          <Box sx={{ mb: 1 }}>
+            <Typography variant="caption" color="text.secondary">
+              {notification.message}
+            </Typography>
+          </Box>
+        )}
+
+        {notification.action && (
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <IconButton size="small" onClick={notification.action.onClick}>
+              <Typography variant="caption">
+                {notification.action.label}
+              </Typography>
+            </IconButton>
+          </Box>
+        )}
+      </CardContent>
+    </Card>
+  )
+}

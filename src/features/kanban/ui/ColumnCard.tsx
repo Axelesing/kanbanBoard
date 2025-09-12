@@ -1,22 +1,22 @@
-import { Card } from '@consta/uikit/Card'
-import { Text } from '@consta/uikit/Text'
-import sc from 'styled-components'
-
 import type { Task } from '@/shared/constants/kanban'
-import { borderRadius, smallPadding } from '@/shared/constants/styles'
+import { TaskCard } from '@/shared/ui/TaskCard/TaskCard'
 
-export function ColumnCard({ task }: { task: Task }) {
+export function ColumnCard({
+  task,
+  ...props
+}: {
+  task: Task
+} & React.ComponentPropsWithoutRef<'div'>) {
   return (
-    <OverlayCard horizontalSpace="3xl" verticalSpace="3xl">
-      <Text>{task.title}</Text>
-    </OverlayCard>
+    <TaskCard
+      task={task}
+      {...props}
+      className="drag-overlay"
+      style={{
+        opacity: 0.9,
+        transform: 'rotate(5deg)',
+        boxShadow: '0 8px 16px rgba(0,0,0,0.2)',
+      }}
+    />
   )
 }
-
-const OverlayCard = sc(Card)`
-  background-color: #fafafa;
-  border: 1px dashed;
-  border-radius: ${borderRadius};
-  padding: ${smallPadding};
-  opacity: 0.9;
-`

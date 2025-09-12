@@ -27,6 +27,7 @@ const config = {
     '^src/(.*)$': '<rootDir>/src/$1',
     '^@(shared|entities|features|widgets|pages|processes|app)/(.*)$':
       '<rootDir>/src/$1/$2',
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
   },
 
   testEnvironment: 'jsdom',
@@ -35,6 +36,10 @@ const config = {
   transform: {
     '\\.[jt]sx?$': ['@swc/jest', swcrc],
   },
+
+  transformIgnorePatterns: [
+    'node_modules/(?!(@mui/material|@mui/icons-material|@emotion/react|@emotion/styled|react-window|react-window-infinite-loader)/)',
+  ],
 
   collectCoverage: false,
   collectCoverageFrom: [

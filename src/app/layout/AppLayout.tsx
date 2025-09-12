@@ -1,37 +1,77 @@
 import { Outlet, Link } from 'react-router-dom'
+import { Box, Typography, AppBar, Toolbar, Container } from '@mui/material'
 
-import { primaryLightBlue } from '@/shared/constants/colors'
-import { bigPadding } from '@/shared/constants/styles'
+import { ThemeToggle } from '@/shared/ui/ThemeToggle'
 
 export function AppLayout() {
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         display: 'flex',
         flexDirection: 'column',
         minHeight: '100vh',
       }}
     >
-      <main style={{ padding: '16px', flex: 1 }}>
-        <Outlet />
-      </main>
-      <footer
-        style={{
-          padding: bigPadding,
-          borderTop: '1px solid #ddd',
-          backgroundColor: primaryLightBlue,
+      <AppBar position="static" color="default" elevation={1}>
+        <Toolbar>
+          <Box sx={{ flexGrow: 1, display: 'flex', gap: 2 }}>
+            <Link
+              to="/"
+              style={{
+                color: 'inherit',
+                textDecoration: 'none',
+                fontWeight: 500,
+              }}
+            >
+              Board
+            </Link>
+            <Link
+              to="/about"
+              style={{
+                color: 'inherit',
+                textDecoration: 'none',
+                fontWeight: 500,
+              }}
+            >
+              About
+            </Link>
+            <Link
+              to="/theme"
+              style={{
+                color: 'inherit',
+                textDecoration: 'none',
+                fontWeight: 500,
+              }}
+            >
+              Theme
+            </Link>
+          </Box>
+          <ThemeToggle />
+        </Toolbar>
+      </AppBar>
+
+      <Box component="main" sx={{ flex: 1, p: 1 }}>
+        <Container maxWidth="xl">
+          <Outlet />
+        </Container>
+      </Box>
+
+      <Box
+        component="footer"
+        sx={{
+          py: 1,
+          px: 2,
+          borderTop: 1,
+          borderColor: 'divider',
+          backgroundColor: 'background.paper',
         }}
       >
-        <nav>
-          <Link style={{ color: 'white' }} to="/">
-            Board
-          </Link>{' '}
-          |{' '}
-          <Link style={{ color: 'white' }} to="/about">
-            About
-          </Link>
-        </nav>
-      </footer>
-    </div>
+        <Container maxWidth="xl">
+          <Typography variant="body2" color="text.secondary" align="center">
+            © 2024 Kanban App. Все права защищены.
+          </Typography>
+        </Container>
+      </Box>
+    </Box>
   )
 }
