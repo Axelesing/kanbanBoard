@@ -4,8 +4,7 @@ import { useUnit } from 'effector-react'
 
 import { NotificationItem } from './NotificationItem'
 import { VirtualizedList } from '@/shared/ui/VirtualizedList'
-import { $$notifications } from '@/shared/model'
-import type { Notification } from '@/shared/model'
+import { $$notifications, type Notification } from '@/shared/model'
 
 /**
  * Виртуализированный контейнер уведомлений

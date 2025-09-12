@@ -1,7 +1,6 @@
 import { Box, Typography, Container } from '@mui/material'
 
-import { ThemeSelector } from '@/shared/ui/ThemeSelector'
-import { ThemeToggle } from '@/shared/ui/ThemeToggle'
+import { ThemeSelector, ThemeToggle } from '@/shared/ui'
 
 export function ThemeSettingsPage() {
   return (

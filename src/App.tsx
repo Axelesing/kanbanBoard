@@ -2,11 +2,13 @@ import { RouterProvider } from 'react-router-dom'
 import { Suspense } from 'react'
 
 import { router } from './app/providers/router'
-import { NotificationContainer } from '@/shared/ui/NotificationContainer'
-import { ThemeProvider } from '@/shared/ui/ThemeProvider'
-import { MuiThemeProvider } from '@/shared/ui/MuiThemeProvider'
-import { ErrorBoundary } from '@/shared/ui/ErrorBoundary'
-import { PageLoader } from '@/shared/ui/PageLoader'
+import {
+  NotificationContainer,
+  ThemeProvider,
+  MuiThemeProvider,
+  ErrorBoundary,
+  PageLoader,
+} from '@/shared/ui'
 
 export function App() {
   return (
