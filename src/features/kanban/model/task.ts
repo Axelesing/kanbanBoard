@@ -44,10 +44,12 @@ sample({
   source: $kanbanData,
   fn: (data, { id, title, description, user, status }) => {
     let updatedTask: Task | null = null
+    let sourceColumnId: string | null = null
 
     const newData = data.map((col) => {
-      const tasks = col.tasks.filter((t) => {
+      const tasks = col.tasks.map((t) => {
         if (t.id === id) {
+          sourceColumnId = col.id
           updatedTask = {
             ...t,
             title,
@@ -59,20 +61,36 @@ sample({
               status: statusToBadge[status ?? t.status],
             },
           }
-          return false
+          return updatedTask
         }
-        return true
+        return t
       })
       return { ...col, tasks }
     })
 
-    if (!updatedTask) return data
+    if (!updatedTask || !sourceColumnId) return data
 
-    return newData.map((col) =>
-      col.id === (status ?? updatedTask!.status)
-        ? { ...col, tasks: [...col.tasks, updatedTask!] }
-        : col,
-    )
+    const targetStatus: TaskStatus = status ?? (updatedTask as Task).status
+    const targetColumnId = targetStatus
+
+    if (sourceColumnId === targetColumnId) {
+      return newData
+    }
+
+    return newData.map((col) => {
+      if (col.id === sourceColumnId) {
+        return {
+          ...col,
+          tasks: col.tasks.filter((t) => t.id !== id),
+        }
+      } else if (col.id === targetColumnId) {
+        return {
+          ...col,
+          tasks: [...col.tasks, updatedTask!],
+        }
+      }
+      return col
+    })
   },
   target: [$kanbanData, saveToStorageFx],
 })
