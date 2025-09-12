@@ -1,5 +1,5 @@
 import { waitFor } from '@testing-library/react'
-import { render as customRender } from '@/shared/lib/test/render'
+import { render as customRender } from '@/shared/lib'
 
 import { BoardPage } from '..'
 

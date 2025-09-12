@@ -6,7 +6,7 @@ import {
   STATUSES,
   statusToBadge,
 } from '@/shared/constants/kanban/data'
-import { Item } from '@/shared/ui/select/UserSelect'
+import { Item } from '@/features/taskModal'
 
 import { $kanbanData, saveToStorageFx } from './core'
 

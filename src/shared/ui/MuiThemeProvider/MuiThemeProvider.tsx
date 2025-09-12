@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@mui/material/styles'
 import { CssBaseline } from '@mui/material'
 import { createTheme } from '@mui/material/styles'
-import { useTheme as useOurTheme } from '@/shared/lib/theme/useTheme'
+import { useTheme as useOurTheme } from '@/shared/lib'
 import { RADIUS, BORDERS } from '@/shared/lib/converters'
 
 interface MuiThemeProviderProps {

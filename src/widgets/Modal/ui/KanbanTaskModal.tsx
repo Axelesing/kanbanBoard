@@ -6,10 +6,8 @@ import {
   DialogActions,
 } from '@mui/material'
 import { reflect } from '@effector/reflect'
-import { useTaskModal } from '@/features/taskModal/hooks/useTaskModal'
-import { ModalActions } from '@/features/taskModal/ui/ModalActions'
-import { TaskForm } from '@/features/taskModal/ui/TaskForm'
-import { TaskSettingsPanel } from '@/features/taskModal/ui/TaskSettingsPanel'
+import { useTaskModal } from '@/features/taskModal'
+import { ModalActions, TaskForm, TaskSettingsPanel } from '@/features/taskModal'
 import { ScreenReaderOnly } from '@/shared/ui/ScreenReaderOnly'
 
 import { $$modal } from '../model/core'

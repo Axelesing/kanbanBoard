@@ -5,3 +5,4 @@ export type {
   NotificationType,
   NotificationOptions,
 } from './notifications'
+export type { ThemeMode, Theme } from './theme/types'

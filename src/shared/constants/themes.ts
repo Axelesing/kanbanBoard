@@ -1,4 +1,4 @@
-import type { Theme } from '@/shared/model/theme/types'
+import type { Theme } from '@/shared/model'
 
 /**
  * Светлая тема

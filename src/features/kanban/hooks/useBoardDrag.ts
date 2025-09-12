@@ -2,8 +2,8 @@ import { useState, useCallback } from 'react'
 import { DragEndEvent, DragStartEvent } from '@dnd-kit/core'
 import type { Task, Column } from '@/shared/constants/kanban'
 import { findTaskIndexes, moveTask } from '../lib'
-import { useThrottle } from '@/shared/lib/performance/hooks'
-import { logger } from '@/shared/lib/logger'
+import { useThrottle } from '@/shared/lib'
+import { logger } from '@/shared/lib'
 
 interface UseBoardDragProps {
   columns: Column[]

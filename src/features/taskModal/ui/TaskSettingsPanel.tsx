@@ -1,7 +1,7 @@
 import { Box } from '@mui/material'
 
 import { TaskStatus } from '@/shared/constants/kanban/data'
-import type { Item } from '@/shared/ui/select/UserSelect'
+import type { Item } from './UserSelect'
 
 import { CreatedField } from './CreatedField'
 import { TaskStatusField } from './TaskStatusField'

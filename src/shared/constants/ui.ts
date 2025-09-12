@@ -105,29 +105,6 @@ export const SHADOWS = {
 } as const
 
 /**
- * Радиусы границ
- */
-export const BORDER_RADIUS = {
-  NONE: 0,
-  SMALL: 4,
-  MEDIUM: 8,
-  LARGE: 12,
-  ROUND: '50%',
-} as const
-
-/**
- * Отступы
- */
-export const SPACING = {
-  XS: 0.5,
-  SM: 1,
-  MD: 2,
-  LG: 3,
-  XL: 4,
-  XXL: 6,
-} as const
-
-/**
  * Брейкпоинты для медиа-запросов
  */
 export const BREAKPOINTS = {

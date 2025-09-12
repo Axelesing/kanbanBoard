@@ -1,7 +1,7 @@
 import { memo, useEffect } from 'react'
 import { createGlobalStyle } from 'styled-components'
 
-import { useTheme } from '@/shared/lib/theme/useTheme'
+import { useTheme } from '@/shared/lib'
 import { pxToRem, BORDERS } from '@/shared/lib/converters'
 
 interface ThemeProviderProps {
@@ -14,6 +14,22 @@ interface ThemeProviderProps {
 const GlobalStyles = createGlobalStyle<{ isDark: boolean }>`
   :root {
     --transition-theme: all 0.3s ease;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes pulse {
+    0%, 80%, 100% {
+      transform: scale(0.8);
+      opacity: 0.5;
+    }
+    40% {
+      transform: scale(1);
+      opacity: 1;
+    }
   }
 
   * {

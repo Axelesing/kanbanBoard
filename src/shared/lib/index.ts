@@ -1,4 +1,5 @@
-export { convertPxToRem } from './converters'
 export * from './validation'
-export * from './performance/hooks'
+export * from './performance'
 export * from './theme/useTheme'
+export * from './test/render'
+export * from './logger'

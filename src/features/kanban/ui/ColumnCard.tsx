@@ -1,5 +1,5 @@
 import type { Task } from '@/shared/constants/kanban'
-import { TaskCard } from '@/shared/ui/TaskCard/TaskCard'
+import { TaskCard } from '@/shared/ui'
 
 export function ColumnCard({
   task,

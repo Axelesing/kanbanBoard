@@ -3,7 +3,7 @@ import { fork, allSettled, type Scope } from 'effector'
 import { ThemeProvider } from '@mui/material/styles'
 import { createTheme } from '@mui/material/styles'
 
-import { render } from '@/shared/lib/test/render'
+import { render } from '@/shared/lib'
 import { $$notifications } from '@/shared/model'
 import { NotificationContainer } from '../NotificationContainer'
 

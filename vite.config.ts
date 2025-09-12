@@ -14,6 +14,25 @@ export default defineConfig({
 
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
+    alias: {
+      '@': '/src',
+    },
+  },
+
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      'react-router-dom',
+      '@mui/material',
+      '@emotion/react',
+      '@emotion/styled',
+      'effector',
+      'effector-react',
+      '@dnd-kit/core',
+      '@dnd-kit/sortable',
+      'react-window',
+    ],
   },
 
   build: {
@@ -21,6 +40,7 @@ export default defineConfig({
     emptyOutDir: true,
     sourcemap: true,
     chunkSizeWarningLimit: 1000,
+    minify: 'esbuild',
     rollupOptions: {
       output: {
         entryFileNames: 'assets/js/[name].js',

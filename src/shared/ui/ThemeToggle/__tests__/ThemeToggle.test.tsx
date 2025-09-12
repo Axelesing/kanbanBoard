@@ -1,11 +1,12 @@
-import { render } from '@/shared/lib/test/render'
+import { render } from '@/shared/lib'
 import { screen } from '@testing-library/react'
 import { ThemeProvider } from '@mui/material/styles'
 import { createTheme } from '@mui/material/styles'
 import { ThemeToggle } from '../ThemeToggle'
 
 const mockUseTheme = jest.fn()
-jest.mock('@/shared/lib/theme/useTheme', () => ({
+jest.mock('@/shared/lib', () => ({
+  ...jest.requireActual('@/shared/lib'),
   useTheme: () => mockUseTheme(),
 }))
 

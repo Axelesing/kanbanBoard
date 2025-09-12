@@ -4,7 +4,7 @@ import {
   maxLengthNullable,
 } from '@/shared/lib/validation'
 import type { ValidationConfig } from '@/shared/lib/validation'
-import type { Item } from '@/shared/ui/select/UserSelect'
+import type { Item } from '@/features/taskModal'
 
 export type TaskFormData = {
   title: string | null

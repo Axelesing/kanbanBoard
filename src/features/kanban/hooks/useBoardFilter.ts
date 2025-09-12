@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import type { Task, Column } from '@/shared/constants/kanban'
 
 interface UseBoardFilterProps {
@@ -22,11 +22,11 @@ export function useBoardFilter({
   const [showFilter, setShowFilter] = useState(false)
   const [filteredTasks, setFilteredTasks] = useState<Task[]>([])
 
-  const toggleFilter = () => setShowFilter(!showFilter)
+  const toggleFilter = useCallback(() => setShowFilter((prev) => !prev), [])
 
-  const onFilteredTasksChange = (tasks: Task[]) => {
+  const onFilteredTasksChange = useCallback((tasks: Task[]) => {
     setFilteredTasks(tasks)
-  }
+  }, [])
 
   const filteredColumns = useMemo(() => {
     if (!showFilter || filteredTasks.length === 0) {

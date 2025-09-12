@@ -1,8 +1,8 @@
 import { reflect } from '@effector/reflect'
 
 import { USERS } from '@/shared/constants/kanban/data'
-import { UserSelect } from '@/shared/ui/select/UserSelect'
-import type { Item } from '@/shared/ui/select/UserSelect'
+import { UserSelect } from './UserSelect'
+import type { Item } from './UserSelect'
 
 type UserSelectFieldProps = {
   value: Item | null | undefined

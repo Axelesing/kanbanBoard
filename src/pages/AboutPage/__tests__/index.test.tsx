@@ -1,4 +1,4 @@
-import { render } from '@/shared/lib/test/render'
+import { render } from '@/shared/lib'
 
 import { AboutPage } from '..'
 

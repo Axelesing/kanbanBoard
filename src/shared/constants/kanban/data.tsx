@@ -1,4 +1,4 @@
-import { Item } from '@/shared/ui/select/UserSelect'
+import { Item } from '@/features/taskModal'
 
 export type BadgePropStatus =
   | 'system'

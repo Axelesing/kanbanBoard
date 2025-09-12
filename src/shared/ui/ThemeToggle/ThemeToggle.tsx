@@ -2,7 +2,7 @@ import { memo } from 'react'
 import { IconButton, Tooltip } from '@mui/material'
 import { LightMode, DarkMode, Settings } from '@mui/icons-material'
 
-import { useTheme } from '@/shared/lib/theme/useTheme'
+import { useTheme } from '@/shared/lib'
 
 interface ThemeToggleProps {
   size?: 's' | 'm' | 'l'

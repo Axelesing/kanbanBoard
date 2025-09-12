@@ -13,7 +13,7 @@ import {
   setMode,
   setAutoMode,
 } from '@/shared/model/theme'
-import type { ThemeMode } from '@/shared/model/theme/types'
+import type { ThemeMode } from '@/shared/model'
 
 /**
  * Хук для работы с темами

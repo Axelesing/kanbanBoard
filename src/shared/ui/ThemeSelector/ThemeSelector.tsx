@@ -10,8 +10,8 @@ import {
   Switch,
 } from '@mui/material'
 
-import { useTheme } from '@/shared/lib/theme/useTheme'
-import type { ThemeMode } from '@/shared/model/theme/types'
+import { useTheme } from '@/shared/lib'
+import type { ThemeMode } from '@/shared/model'
 
 interface ThemeSelectorProps {
   showTitle?: boolean

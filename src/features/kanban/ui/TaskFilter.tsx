@@ -12,8 +12,7 @@ import {
 import { Clear } from '@mui/icons-material'
 
 import { SearchInput } from '@/shared/ui/SearchInput'
-import { useOptimizedList } from '@/shared/lib/performance/hooks'
-import { useStableCallback } from '@/shared/hooks'
+import { useOptimizedList } from '@/shared/lib'
 import type { Task } from '@/shared/constants/kanban'
 import {
   TaskStatus,
@@ -46,8 +45,8 @@ export const TaskFilter = memo<TaskFilterProps>(
       user: null,
     })
 
-    const optimizedTasks = useOptimizedList(tasks, (task) => task.id, {
-      filterFn: (task) => {
+    const filterFn = useCallback(
+      (task: Task) => {
         if (filters.searchQuery) {
           const query = filters.searchQuery.toLowerCase()
           const matchesTitle = task.title?.toLowerCase().includes(query)
@@ -69,6 +68,11 @@ export const TaskFilter = memo<TaskFilterProps>(
 
         return true
       },
+      [filters.searchQuery, filters.status, filters.user],
+    )
+
+    const optimizedTasks = useOptimizedList(tasks, (task) => task.id, {
+      filterFn,
     })
 
     useEffect(() => {
@@ -76,18 +80,15 @@ export const TaskFilter = memo<TaskFilterProps>(
       onFilteredTasksChange(filteredTasks)
     }, [optimizedTasks, onFilteredTasksChange])
 
-    const handleSearchChange = useStableCallback((query: string) => {
+    const handleSearchChange = useCallback((query: string) => {
       setFilters((prev) => ({ ...prev, searchQuery: query }))
     }, [])
 
-    const handleStatusChange = useStableCallback(
-      (status: TaskStatus | null) => {
-        setFilters((prev) => ({ ...prev, status }))
-      },
-      [],
-    )
+    const handleStatusChange = useCallback((status: TaskStatus | null) => {
+      setFilters((prev) => ({ ...prev, status }))
+    }, [])
 
-    const handleUserChange = useStableCallback((user: number | null) => {
+    const handleUserChange = useCallback((user: number | null) => {
       setFilters((prev) => ({ ...prev, user }))
     }, [])
 

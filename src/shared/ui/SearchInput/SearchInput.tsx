@@ -1,7 +1,7 @@
 import { memo, useState, useCallback } from 'react'
 import { TextField, InputAdornment, IconButton } from '@mui/material'
 import { Search, Clear } from '@mui/icons-material'
-import { useDebounce } from '@/shared/lib/performance/hooks'
+import { useDebounce } from '@/shared/lib'
 
 interface SearchInputProps {
   placeholder?: string
